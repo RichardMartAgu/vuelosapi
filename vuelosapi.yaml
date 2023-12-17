@@ -1,0 +1,229 @@
+openapi: 3.0.1
+info:
+  title: Flight API
+  description: |-
+    API para la gestionar datos de vuelos.
+    
+    Algún link útil:
+    - [The flight api repository](https:https://github.com/RichardMartAgu/vuelosapi)
+  contact:
+    email: a27002@svalero.com
+  version: 1.0.0
+
+servers:
+  - url: 'https://api.vuelosapi.com'
+
+tags:
+  - name: Vuelos
+    description: Gestión de los vuelos.
+  - name: Pasajeros
+    description: Gestión de los pasajeros.
+  - name: Aeropuerto
+    description: Gestión de los aeropuertos.
+  - name: Aerolínea
+    description: Gestión de los aerolíneas.
+  - name: Avión
+    description: Gestión de los aviones.
+
+#Control de vuelos
+#Listar vuelos
+paths:
+  /flight:
+    get:
+      tags:
+        - Vuelos
+      summary: Devuelve listado de todos los vuelos.
+      description: Esta operación permite la consulta de todos los vuelos existentes.
+      responses:
+        '200':
+          description: Devuelve la lista completa de vuelos.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/flight'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+#  Crear vuelos
+    post:
+      tags:
+        - Vuelos
+      summary: Crea un nuevo vuelo.
+      description: Añadiendo los campos adecuados podemos crear un vuelo nuevo.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/flight'
+      responses:
+        '201':
+          description: El producto se ha registrado correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/flight'
+        '400':
+          description: Error de validación en los datos de entrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  #Editar vuelos
+
+  /flight/{flightId}:
+    put:
+      tags:
+        - Vuelos
+      summary: Edita un vuelo.
+      description: A partir del Id de un vuelo se edita el mismo vuelo añadiendo los campos adecuados.
+      parameters:
+        - name: flightId
+          in: path
+          description: Id del vuelo necesario para borrar
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/flight'
+      responses:
+        '201':
+          description: El producto se ha editado correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/flight'
+        '400':
+          description: Error de validación en los datos de entrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Vuelo no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+    #Eliminar vuelos
+    delete:
+      tags:
+        - Vuelos
+      summary: Elimina un vuelo.
+      description: A partir del Id de un vuelo se borra el mismo vuelo.
+      parameters:
+        - name: flightId
+          in: path
+          description: Id del vuelo necesario para borrar
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        '400':
+          description: Error de validación en los datos de entrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+components:
+  schemas:
+# Schemas Flight
+    flight:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 23
+          format: int32
+        name:
+          type: string
+          example: Zaragoza/Menorca
+          description: El nombre del vuelo salida/destino
+        departureDate:
+          type: string
+          example: 2020-01-01
+          description: Fecha se salida del vuelo
+        price:
+          type: number
+          format: float
+          example: 65,34
+          description: Precio base del vuelo
+        departureAirportID:
+          type: number
+          format: int32
+        DestinationAirportID:
+          type: number
+          format: int32
+
+#    Errores
+    ErrorResponse:
+      type: object
+      properties:
+        code:
+          type: number
+          format: int32
+        message:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+    BadRequest:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ErrorResponse'
+      example:
+        code: 400
+        message: Validation error
+        errors: Problema en la solicitud
+    NotFound:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ErrorResponse'
+      example:
+        code: 404
+        message: Validation error
+        errors: El recurso solicitado no se puede encontrar
+    InternalServerError:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ErrorResponse'
+      example:
+        code: 500
+        message: Internal Server Error
+        error: Error interno del servidor
