@@ -1,6 +1,6 @@
 package com.svalero.vuelosapi.exceptions;
 
-public class FlightNotFoundException extends Exception{
+public class FlightNotFoundException extends Exception {
 
     public FlightNotFoundException() {
         super();

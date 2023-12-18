@@ -1,6 +1,7 @@
 package com.svalero.vuelosapi.service;
 
 import com.svalero.vuelosapi.domain.Flight;
+import com.svalero.vuelosapi.exceptions.FlightNotFoundException;
 import com.svalero.vuelosapi.repository.FlightRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,21 +19,23 @@ public class FlightService {
     public List<Flight> findAll() {
         return flightRepository.findAll();
     }
+
     public Optional<Flight> findById(long id) {
         return flightRepository.findById(id);
     }
 
-    public void saveFlight (Flight flight){
+    public void saveFlight(Flight flight) {
         flightRepository.save(flight);
     }
 
-    public void removeFlight ( long flightId){
-        flightRepository.deleteById(flightId);
+    public void removeFlight(long flightId) throws FlightNotFoundException {
+        Flight flight = flightRepository.findById(flightId).orElseThrow(()-> new FlightNotFoundException(flightId));
+        flightRepository.delete(flight);
     }
 
-    public void modifyFlight (Flight newflight, long flightId){
+    public void modifyFlight(Flight newflight, long flightId) throws FlightNotFoundException {
         Optional<Flight> flight = flightRepository.findById(flightId);
-        if (flight.isPresent()){
+        if (flight.isPresent()) {
             Flight existingFligh = flight.get();
             existingFligh.setName(newflight.getName());
             existingFligh.setDepartureDate(newflight.getDepartureDate());
@@ -41,6 +44,9 @@ public class FlightService {
             existingFligh.setInternational(newflight.isInternational());
 
             flightRepository.save(existingFligh);
+        }
+        else { throw new FlightNotFoundException (flightId);
+
         }
 
     }
