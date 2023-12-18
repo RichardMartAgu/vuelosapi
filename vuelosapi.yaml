@@ -26,6 +26,7 @@ tags:
     description: Gestión de los aviones.
 
 #Control de vuelos
+
 #Listar vuelos
 paths:
   /flight:
@@ -50,7 +51,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
-#  Crear vuelos
+ #  Crear vuelos
     post:
       tags:
         - Vuelos
@@ -83,9 +84,96 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerError'
-  #Editar vuelos
+
+#Buscar vuelos por nombre, día de vuelo y/o puerta de embarque
+
+  /flight/findByName,departureDate and/or gate:
+    get:
+      tags:
+        - Vuelos
+      summary: Devuelve listado de vuelos por filtrado.
+      description: Esta operación permite la consulta de todos los vuelos mediante un filtrado de 3 campos.
+      parameters:
+        - name: name
+          in: query
+          description: Nombre del vuelo (Ciudad origen y Ciudad destino)
+          required: false
+          schema:
+            type: string
+        - name: departureDate
+          in: query
+          description: Día del vuelo formato -> ( "2030-01-18" )
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: gate
+          in: query
+          description: Numero de la puerta de embarque
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Devuelve el filtrado o la lista completa en su defecto.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/flight'
+        '400':
+          description: Error de validación en los datos de entrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+# Buscar vuelos por Id
 
   /flight/{flightId}:
+    get:
+      tags:
+        - Vuelos
+      summary: Busca vuelo por Id
+      description: A partir de una Id se puede encontrar los datos de un vuelo.
+      parameters:
+        - name: flightId
+          in: path
+          description: Id del vuelo necesario para borrar
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Devuelve un producto correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/flight'
+        '400':
+          description: Error al validar Id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+# Editar vuelos
     put:
       tags:
         - Vuelos
@@ -103,6 +191,7 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/flight'
+
       responses:
         '201':
           description: El producto se ha editado correctamente
@@ -133,6 +222,7 @@ paths:
                 $ref: '#/components/schemas/InternalServerError'
 
     #Eliminar vuelos
+
     delete:
       tags:
         - Vuelos
@@ -147,8 +237,11 @@ paths:
             type: integer
 
       responses:
+        '204':
+          description: El producto se ha borrado correctamente
+
         '400':
-          description: Error de validación en los datos de entrada
+          description: Error al validar Id
           content:
             application/json:
               schema:
@@ -162,7 +255,7 @@ paths:
                 $ref: '#/components/schemas/InternalServerError'
 components:
   schemas:
-# Schemas Flight
+    # Schemas Flight
     flight:
       type: object
       properties:
@@ -190,7 +283,7 @@ components:
           type: number
           format: int32
 
-#    Errores
+    #    Errores
     ErrorResponse:
       type: object
       properties:
@@ -209,21 +302,21 @@ components:
         - $ref: '#/components/schemas/ErrorResponse'
       example:
         code: 400
-        message: Validation error
-        errors: Problema en la solicitud
+        message: Problema en la solicitud
+        errors: Bad Request
     NotFound:
       type: object
       allOf:
         - $ref: '#/components/schemas/ErrorResponse'
       example:
         code: 404
-        message: Validation error
-        errors: El recurso solicitado no se puede encontrar
+        message: El recurso solicitado no se puede encontrar
+        errors: Not Found
     InternalServerError:
       type: object
       allOf:
         - $ref: '#/components/schemas/ErrorResponse'
       example:
         code: 500
-        message: Internal Server Error
-        error: Error interno del servidor
+        message: Error interno del servidor
+        error: Internal Server Error
