@@ -14,8 +14,12 @@ public class FlightService {
     @Autowired
     private FlightRepository flightRepository;
 
+
     public List<Flight> findAll() {
         return flightRepository.findAll();
+    }
+    public Optional<Flight> findById(long id) {
+        return flightRepository.findById(id);
     }
 
     public void saveFlight (Flight flight){
