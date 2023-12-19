@@ -75,7 +75,7 @@ public class FlightController {
     }
 
     @ExceptionHandler(FlightNotFoundException.class)
-    public ResponseEntity<ErrorResponse> productNotFoundException(FlightNotFoundException pnfe) {
+    public ResponseEntity<ErrorResponse> flightNotFoundException(FlightNotFoundException pnfe) {
         ErrorResponse errorResponse = ErrorResponse.generalError(404, pnfe.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }

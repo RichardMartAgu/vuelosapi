@@ -29,6 +29,6 @@ public class ErrorResponse {
     }
 
     public static ErrorResponse validationError(Map<String, String> errors) {
-        return new ErrorResponse(400, "Validation error", errors);
+        return new ErrorResponse(400, "Error de validación", errors);
     }
 }

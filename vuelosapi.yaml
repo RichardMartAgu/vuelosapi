@@ -64,7 +64,7 @@ paths:
               $ref: '#/components/schemas/flight'
       responses:
         '201':
-          description: El producto se ha registrado correctamente
+          description: El vuelo se ha registrado correctamente
           content:
             application/json:
               schema:
@@ -152,7 +152,7 @@ paths:
             type: integer
       responses:
         '200':
-          description: Devuelve un producto correctamente
+          description: Devuelve un vuelo correctamente
           content:
             application/json:
               schema:
@@ -194,7 +194,7 @@ paths:
 
       responses:
         '201':
-          description: El producto se ha editado correctamente
+          description: El vuelo se ha editado correctamente
           content:
             application/json:
               schema:
@@ -238,7 +238,236 @@ paths:
 
       responses:
         '204':
-          description: El producto se ha borrado correctamente
+          description: El vuelo se ha borrado correctamente
+
+        '400':
+          description: Error al validar Id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+#------------------------------------------------------------------------
+#Control de Aeropuertos
+#Listar vuelos
+
+  /airport:
+    get:
+      tags:
+        - Aeropuertos
+      summary: Devuelve listado de todos los aeropuertos.
+      description: Esta operación permite la consulta de todos los aeropuertos existentes.
+      responses:
+        '200':
+          description: Devuelve la lista completa de aeropuertos.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/airport'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    #  Crear aeropuertos
+    post:
+      tags:
+        - Vuelos
+      summary: Crea un nuevo aeropuerto.
+      description: Añadiendo los campos adecuados podemos crear un aeropuerto nuevo.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/airport'
+      responses:
+        '201':
+          description: El aeropuerto se ha registrado correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/airport'
+        '400':
+          description: Error de validación en los datos de entrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+  #Buscar vuelos por nombre, día de vuelo y/o puerta de embarque
+
+  /airports/findByName,city and/or foundationYear:
+    get:
+      tags:
+        - Aeropuertos
+      summary: Devuelve listado de aeropuertos por filtrado.
+      description: Esta operación permite la consulta de todos los aeropuertos mediante un filtrado de 3 campos.
+      parameters:
+        - name: name
+          in: query
+          description: Nombre del aeropuerto
+          required: false
+          schema:
+            type: string
+        - name: city
+          in: query
+          description: Numero del aeropuerto
+          required: false
+          schema:
+            type: string
+        - name: foundationYear
+          in: query
+          description: Día de la inauguración del aeropuerto formato -> ( "2030-01-18" )
+          required: false
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Devuelve el filtrado o la lista completa en su defecto.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/airport'
+        '400':
+          description: Error de validación en los datos de entrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # Buscar vuelos por Id
+
+  /airport/{airportId}:
+    get:
+      tags:
+        - Aeropuertos
+      summary: Busca Aeropuertos por Id
+      description: A partir de una Id se puede encontrar los datos de un Aeropuerto.
+      parameters:
+        - name: airportId
+          in: path
+          description: Id del vuelo necesario para borrar
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Devuelve un producto correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/airport'
+        '400':
+          description: Error al validar Id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+    # Editar aeropuertos
+    put:
+      tags:
+        - Aeropuertos
+      summary: Edita un aeropuerto.
+      description: A partir del Id de un vuelo se edita el mismo aeropuerto añadiendo los campos adecuados.
+      parameters:
+        - name: airportId
+          in: path
+          description: Id del aeropuerto necesario para borrar
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/airport'
+
+      responses:
+        '201':
+          description: El producto se ha editado correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/airport'
+        '400':
+          description: Error de validación en los datos de entrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Vuelo no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+    #Eliminar aeropuertos
+
+    delete:
+      tags:
+        - Aeropuertos
+      summary: Elimina un aeropuerto.
+      description: A partir del Id de un aeropuerto se borra el mismo vuelo.
+      parameters:
+        - name: airportId
+          in: path
+          description: Id del aeropuerto necesario para borrar
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        '204':
+          description: El aeropuerto se ha borrado correctamente
 
         '400':
           description: Error al validar Id
@@ -271,17 +500,57 @@ components:
           type: string
           example: 2020-01-01
           description: Fecha se salida del vuelo
-        price:
+        gate:
+          type: number
+          format: int32
+          example: 5
+          description: Numero de la puerta de embarque
+        duration:
           type: number
           format: float
-          example: 65,34
-          description: Precio base del vuelo
-        departureAirportID:
+          example: 5.5
+          description: Tiempo de vuelo en horas
+        international:
+          type: boolean
+          example: false
+          description: Nos dice si el vuelo es internacional o no
+
+
+    # Schemas airport
+    airport:
+      type: object
+      properties:
+        id:
           type: number
+          example: 23
           format: int32
-        DestinationAirportID:
+        name:
+          type: string
+          example: Aeropuerto de Zaragoza
+          description: El nombre del aeropuerto
+        city:
+          type: string
+          example: Zaragoza
+          description: El nombre de la Ciudad del aeropuerto
+        foundationYear:
+          type: string
+          example: 1965-10-05
+          description: Fecha de inauguración del aeropuerto
+        latitude:
           type: number
-          format: int32
+          format: float
+          example: 41.6669
+          description: Latitud de la ubicación del aeropuerto
+        longitude:
+          type: number
+          format: float
+          example: -1.0413
+          description: Longitud de la ubicación del aeropuerto
+        active:
+          type: boolean
+          example: true
+          description: Nos indica si el aeropuerto está en activo o no
+
 
     #    Errores
     ErrorResponse:
