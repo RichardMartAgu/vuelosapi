@@ -11,8 +11,8 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "flights")
-public class Flight {
+@Entity(name = "airplanes")
+public class Airplane {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -20,17 +20,15 @@ public class Flight {
     @NotBlank(message = "El nombre no puede estar vacío")
     @Size(max = 25, message = "El nombre no puede tener más de 25 caracteres")
     @Column
-    private String name;
+    private String model;
     @Column
-    @NotNull(message = "La fecha es obligatoria")
-    @Future(message = "La fecha tiene que ser mayor que el día de hoy")
-    private LocalDate departureDate;
-    @Min(value = 0, message = "La puerta de embarque debe ser mayor que cero")
+    private LocalDate manufacturingDate;
+    @Min(value = 0, message = "La capacidad debe ser mayor que cero")
     @Column
-    private int gate;
+    private int passengerCapacity;
     @Column
-    private float duration;
+    private float maxSpeed;
     @Column
-    private boolean international;
+    private boolean active;
 
 }

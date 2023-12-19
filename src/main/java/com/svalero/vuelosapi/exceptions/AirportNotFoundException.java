@@ -11,7 +11,7 @@ public class AirportNotFoundException extends Exception {
     }
 
     public AirportNotFoundException(long id) {
-        super("El Aeropuerto " + id + " no existe");
+        super("El Aeropuerto con" + id + " no existe");
     }
 }
 

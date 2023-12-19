@@ -314,7 +314,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalServerError'
 
-  #Buscar vuelos por nombre, día de vuelo y/o puerta de embarque
+  #Buscar aeropuertos por nombre, día de vuelo y/o puerta de embarque
 
   /airports/findByName,city and/or foundationYear:
     get:
@@ -364,14 +364,14 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
-  # Buscar vuelos por Id
+  # Buscar aeropuertos por Id
 
   /airport/{airportId}:
     get:
       tags:
         - Aeropuertos
-      summary: Busca Aeropuertos por Id
-      description: A partir de una Id se puede encontrar los datos de un Aeropuerto.
+      summary: Busca aeropuertos por Id
+      description: A partir de una Id se puede encontrar los datos de un aeropuerto.
       parameters:
         - name: airportId
           in: path
@@ -381,7 +381,7 @@ paths:
             type: integer
       responses:
         '200':
-          description: Devuelve un producto correctamente
+          description: Devuelve un aeropuerto correctamente
           content:
             application/json:
               schema:
@@ -423,7 +423,7 @@ paths:
 
       responses:
         '201':
-          description: El producto se ha editado correctamente
+          description: El aeropuerto se ha editado correctamente
           content:
             application/json:
               schema:
@@ -456,7 +456,7 @@ paths:
       tags:
         - Aeropuertos
       summary: Elimina un aeropuerto.
-      description: A partir del Id de un aeropuerto se borra el mismo vuelo.
+      description: A partir del Id de un aeropuerto se borra el mismo aeropuerto.
       parameters:
         - name: airportId
           in: path
@@ -482,6 +482,239 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerError'
+
+#---------------------------------------------------------------------
+  #Control de Aviones
+  #Listar Aviones
+
+  /airplanes:
+    get:
+      tags:
+        - Aviones
+      summary: Devuelve listado de todos los aviones.
+      description: Esta operación permite la consulta de todos los aviones existentes.
+      responses:
+        '200':
+          description: Devuelve la lista completa de aviones.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/airplane'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    #  Crear aviones
+    post:
+      tags:
+        - Aviones
+      summary: Crea un nuevo avión.
+      description: Añadiendo los campos adecuados podemos crear un avión nuevo.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/airplane'
+      responses:
+        '201':
+          description: El avión se ha registrado correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/airplane'
+        '400':
+          description: Error de validación en los datos de entrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+  #Buscar aviones por model, día de fabricación y/o capacidad máxima de pasajeros
+
+  /airplane/findByModel,manufacturingDate and/or passengerCapacity:
+    get:
+      tags:
+        - Aviones
+      summary: Devuelve listado de Aviones por filtrado.
+      description: Esta operación permite la consulta de todos los Aviones mediante un filtrado de 3 campos.
+      parameters:
+        - name: model
+          in: query
+          description: Nombre del avión
+          required: false
+          schema:
+            type: string
+        - name: manufacturingDate
+          in: query
+          description: Día de fabricación del avión formato -> ( "2010-01-18" )
+          required: false
+          schema:
+            type: string
+            format: date
+        - name: passengerCapacity
+          in: query
+          description: Capacidad máxima de pasajeros
+          required: false
+          schema:
+            type: integer
+
+      responses:
+        '200':
+          description: Devuelve el filtrado o la lista completa en su defecto.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/airplane'
+        '400':
+          description: Error de validación en los datos de entrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # Buscar aviones por Id
+
+  /airplane/{airplaneId}:
+    get:
+      tags:
+        - Aviones
+      summary: Busca aviones por Id
+      description: A partir de una Id se puede encontrar los datos de un avión
+      parameters:
+        - name: airplaneId
+          in: path
+          description: Id del avión necesario para borrar
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Devuelve un avión correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/airplane'
+        '400':
+          description: Error al validar Id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+    # Editar aviones
+    put:
+      tags:
+        - Aviones
+      summary: Edita un avión
+      description: A partir del Id de un avión se edita el mismo avión añadiendo los campos adecuados.
+      parameters:
+        - name: airplaneId
+          in: path
+          description: Id del avión necesario para borrar
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/airplane'
+
+      responses:
+        '201':
+          description: El avión se ha editado correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/airport'
+        '400':
+          description: Error de validación en los datos de entrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Vuelo no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+    #Eliminar aviones
+
+    delete:
+      tags:
+        - Aviones
+      summary: Elimina un avión
+      description: A partir del Id de un avión se borra el mismo avión
+      parameters:
+        - name: airplaneId
+          in: path
+          description: Id del avión necesario para borrar
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        '204':
+          description: El avión se ha borrado correctamente
+
+        '400':
+          description: Error al validar Id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+#-------------------------------------------------------------
+
 components:
   schemas:
     # Schemas Flight
@@ -550,6 +783,37 @@ components:
           type: boolean
           example: true
           description: Nos indica si el aeropuerto está en activo o no
+
+    # Schemas airplane
+    airplane:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 23
+          format: int32
+        model:
+          type: string
+          example: Boeing 737
+          description: El nombre del avión
+        manufacturingDate:
+          type: string
+          example: 1965-10-05
+          description: Fecha de inauguración del avión
+        passengerCapacity:
+          type: number
+          format: int32
+          example: 200
+          description: Capacidad máxima de pasajeros
+        maxSpeed:
+          type: number
+          format: float
+          example: 560.0
+          description: Velocidad máxima del avión
+        active:
+          type: boolean
+          example: true
+          description: Nos indica si el avión está en activo o no
 
 
     #    Errores

@@ -2,7 +2,6 @@ package com.svalero.vuelosapi.service;
 
 import com.svalero.vuelosapi.domain.Airport;
 import com.svalero.vuelosapi.exceptions.AirportNotFoundException;
-import com.svalero.vuelosapi.exceptions.FlightNotFoundException;
 import com.svalero.vuelosapi.repository.AirportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
