@@ -146,7 +146,7 @@ paths:
       parameters:
         - name: flightId
           in: path
-          description: Id del vuelo necesario para borrar
+          description: Id del vuelo necesario para buscar
           required: true
           schema:
             type: integer
@@ -182,7 +182,7 @@ paths:
       parameters:
         - name: flightId
           in: path
-          description: Id del vuelo necesario para borrar
+          description: Id del vuelo necesario para editar
           required: true
           schema:
             type: integer
@@ -375,7 +375,7 @@ paths:
       parameters:
         - name: airportId
           in: path
-          description: Id del vuelo necesario para borrar
+          description: Id del vuelo necesario para buscar
           required: true
           schema:
             type: integer
@@ -411,7 +411,7 @@ paths:
       parameters:
         - name: airportId
           in: path
-          description: Id del aeropuerto necesario para borrar
+          description: Id del aeropuerto necesario para editar
           required: true
           schema:
             type: integer
@@ -605,7 +605,7 @@ paths:
       parameters:
         - name: airplaneId
           in: path
-          description: Id del avión necesario para borrar
+          description: Id del avión necesario para buscar
           required: true
           schema:
             type: integer
@@ -641,7 +641,7 @@ paths:
       parameters:
         - name: airplaneId
           in: path
-          description: Id del avión necesario para borrar
+          description: Id del avión necesario para editar
           required: true
           schema:
             type: integer
@@ -743,7 +743,7 @@ paths:
     #  Crear aerolínea
     post:
       tags:
-        - Aviones
+        - Aerolíneas
       summary: Crea una nueva aerolínea.
       description: Añadiendo los campos adecuados podemos crear una aerolínea nueva.
       requestBody:
@@ -753,7 +753,7 @@ paths:
               $ref: '#/components/schemas/airline'
       responses:
         '201':
-          description: El avión se ha registrado correctamente
+          description: La aerolínea se ha registrado correctamente
           content:
             application/json:
               schema:
@@ -836,7 +836,7 @@ paths:
       parameters:
         - name: airlineId
           in: path
-          description: Id del aerolínea necesario para borrar
+          description: Id de la aerolínea necesario para buscar
           required: true
           schema:
             type: integer
@@ -872,7 +872,7 @@ paths:
       parameters:
         - name: airlineId
           in: path
-          description: Id de la aerolínea necesario para borrar
+          description: Id de la aerolínea necesario para editar
           required: true
           schema:
             type: integer
@@ -911,7 +911,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalServerError'
 
-    #Eliminar aviones
+    #Eliminar aerolíneas
 
     delete:
       tags:
@@ -929,6 +929,236 @@ paths:
       responses:
         '204':
           description: La aerolínea se ha borrado correctamente
+
+        '400':
+          description: Error al validar Id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+#---------------------------------------------------------------
+
+  #Control de tiendas de aeropuerto
+  #Listar tiendas
+
+  /airportStore:
+    get:
+      tags:
+        - Tiendas de aeropuerto
+      summary: Devuelve listado de todos las tiendas
+      description: Esta operación permite la consulta de todas las tiendas existentes
+      responses:
+        '200':
+          description: Devuelve la lista completa de tiendas.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/airportStore'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    #  Crear tienda
+    post:
+      tags:
+        - Tiendas de aeropuerto
+      summary: Crea una nueva tienda.
+      description: Añadiendo los campos adecuados podemos crear una tienda nueva.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/airportStore'
+      responses:
+        '201':
+          description: La tienda se ha registrado correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/airline'
+        '400':
+          description: Error de validación en los datos de entrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+  #Buscar tiendas por nombre, tipo y/o beneficio
+
+  /airportStore/findByName,type and/or averageProfit:
+    get:
+      tags:
+        - Tiendas de aeropuerto
+      summary: Devuelve listado de tiendas por filtrado.
+      description: Esta operación permite la consulta de todas las tiendas mediante un filtrado de 3 campos.
+      parameters:
+        - name: name
+          in: query
+          description: Nombre de la tienda
+          required: false
+          schema:
+            type: string
+        - name: type
+          in: query
+          description: Tipo del comercio
+          required: false
+          schema:
+            type: string
+        - name: fleet
+          in: query
+          description: Porcentaje de la media de beneficios de la tienda
+          required: false
+          schema:
+            type: float
+
+      responses:
+        '200':
+          description: Devuelve el filtrado o la lista completa en su defecto.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/airportStore'
+        '400':
+          description: Error de validación en los datos de entrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # Buscar tiendas por Id
+
+  /airportStore/{airportStoreId}:
+    get:
+      tags:
+        - Tiendas de aeropuerto
+      summary: Busca tiendas por Id
+      description: A partir de un Id se puede encontrar los datos de una tienda
+      parameters:
+        - name: airportStoreId
+          in: path
+          description: Id de la tienda necesario para buscar
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Devuelve una tienda correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/airline'
+        '400':
+          description: Error al validar Id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+    # Editar tiendas
+    put:
+      tags:
+        - Tiendas de aeropuerto
+      summary: Edita una tienda
+      description: A partir del Id de una tienda se edita la misma tienda añadiendo los campos adecuados.
+      parameters:
+        - name: airportStoreId
+          in: path
+          description: Id de la aerolínea necesario para editar
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/airportStore'
+
+      responses:
+        '201':
+          description: La tienda se ha editado correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/airportStore'
+        '400':
+          description: Error de validación en los datos de entrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Vuelo no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+    #Eliminar tiendas
+
+    delete:
+      tags:
+        - Tiendas de aeropuerto
+      summary: Elimina una tienda
+      description: A partir del Id de una tienda se borra la misma tienda
+      parameters:
+        - name: airportStoreId
+          in: path
+          description: Id de la tienda necesario para borrar
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        '204':
+          description: La tienda se ha borrado correctamente
 
         '400':
           description: Error al validar Id
@@ -1080,6 +1310,39 @@ components:
           type: boolean
           example: true
           description: Nos indica si la aerolínea está en activo o no
+    # Schemas airportStore
+    airportStore:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 23
+          format: int32
+        name:
+          type: string
+          example: BarPepe
+          description: El nombre de la tienda
+        type:
+          type: string
+          example: Repostería
+          description: El tipo comercio que és
+        telephone:
+          type: integer
+          example: 973554603
+          description: teléfono de contacto
+        openingDay:
+          type: string
+          example: 1999-10-25
+          description: Fecha de inauguración de la tienda
+        averageProfit:
+          type: number
+          format: float
+          example: 80.4
+          description: Porcentaje de la media de beneficios de la tienda
+        open:
+          type: boolean
+          example: true
+          description: Nos indica si la tienda está en activo o no
 
     #    Errores
     ErrorResponse:

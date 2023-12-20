@@ -43,7 +43,7 @@ public class AirportController {
         }
         if (foundationYear != null) {
             airportList = airportList.stream()
-                    .filter(flight -> flight.getFoundationYear().isEqual(foundationYear))
+                    .filter(airport -> airport.getFoundationYear().isEqual(foundationYear))
                     .collect(Collectors.toList());
         }
         return new ResponseEntity<>(airportList, HttpStatus.OK);
