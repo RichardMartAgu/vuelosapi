@@ -1,12 +1,9 @@
 package com.svalero.vuelosapi.controller;
 
 import com.svalero.vuelosapi.domain.Airplane;
-import com.svalero.vuelosapi.domain.Airport;
 import com.svalero.vuelosapi.domain.ErrorResponse;
 import com.svalero.vuelosapi.exceptions.AirplaneNotFoundException;
-import com.svalero.vuelosapi.exceptions.AirportNotFoundException;
 import com.svalero.vuelosapi.service.AirplaneService;
-import com.svalero.vuelosapi.service.AirportService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

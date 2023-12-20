@@ -1,7 +1,10 @@
 package com.svalero.vuelosapi.domain;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,8 +14,8 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity(name = "airport")
-public class Airport {
+@Entity(name = "airlines")
+public class Airline {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -21,17 +24,21 @@ public class Airport {
     @Size(max = 25, message = "El nombre no puede tener más de 25 caracteres")
     @Column
     private String name;
-    @NotNull(message = "La ciudad es obligatoria")
+    @NotNull(message = "El teléfono es obligatorio")
     @Column
-    private String city;
-    @NotNull(message = "El año de fundación es obligatoria")
+    private int telephone;
+    @NotNull(message = "El el año es obligatorio")
     @Column
     private LocalDate foundationYear;
+    @Min(value = 0, message = "La flota debe ser mayor que cero")
+    @NotNull(message = "La flota es obligatoria")
     @Column
-    private float latitude;
+    private int fleet;
     @Column
-    private float longitude;
+    private float onTime;
     @Column
     private boolean active;
+
+
 
 }

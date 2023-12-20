@@ -11,7 +11,7 @@ public class FlightNotFoundException extends Exception {
     }
 
     public FlightNotFoundException(long id) {
-        super("El vuelo con" + id + " no existe");
+        super("El vuelo con id " + id + " no existe");
     }
 }
 

@@ -715,6 +715,237 @@ paths:
 
 #-------------------------------------------------------------
 
+  #Control de aerolíneas
+  #Listar aerolíneas
+
+  /airlines:
+    get:
+      tags:
+        - Aerolíneas
+      summary: Devuelve listado de todos las aerolíneas
+      description: Esta operación permite la consulta de todas las aerolíneas existentes
+      responses:
+        '200':
+          description: Devuelve la lista completa de aerolíneas.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/airline'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+    #  Crear aerolínea
+    post:
+      tags:
+        - Aviones
+      summary: Crea una nueva aerolínea.
+      description: Añadiendo los campos adecuados podemos crear una aerolínea nueva.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/airline'
+      responses:
+        '201':
+          description: El avión se ha registrado correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/airline'
+        '400':
+          description: Error de validación en los datos de entrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+  #Buscar aerolíneas por nombre, teléfono y/o flota
+
+  /airline/findByName,telephone and/or fleet:
+    get:
+      tags:
+        - Aerolíneas
+      summary: Devuelve listado de aerolíneas por filtrado.
+      description: Esta operación permite la consulta de todas las aerolíneas mediante un filtrado de 3 campos.
+      parameters:
+        - name: name
+          in: query
+          description: Nombre de la  aerolínea
+          required: false
+          schema:
+            type: string
+        - name: telephone
+          in: query
+          description: Teléfono de contacto
+          required: false
+          schema:
+            type: number
+            format: int32
+        - name: fleet
+          in: query
+          description: Numero total de la flota
+          required: false
+          schema:
+            type: integer
+
+      responses:
+        '200':
+          description: Devuelve el filtrado o la lista completa en su defecto.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/airline'
+        '400':
+          description: Error de validación en los datos de entrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  # Buscar aerolíneas por Id
+
+  /airline/{airlineId}:
+    get:
+      tags:
+        - Aerolíneas
+      summary: Busca aerolíneas por Id
+      description: A partir de una Id se puede encontrar los datos de una aerolíneas
+      parameters:
+        - name: airlineId
+          in: path
+          description: Id del aerolínea necesario para borrar
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Devuelve una aerolínea correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/airline'
+        '400':
+          description: Error al validar Id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+    # Editar aerolíneas
+    put:
+      tags:
+        - Aerolíneas
+      summary: Edita una aerolínea
+      description: A partir del Id de una aerolínea se edita la misma aerolínea añadiendo los campos adecuados.
+      parameters:
+        - name: airlineId
+          in: path
+          description: Id de la aerolínea necesario para borrar
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/airline'
+
+      responses:
+        '201':
+          description: La aerolínea se ha editado correctamente
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/airline'
+        '400':
+          description: Error de validación en los datos de entrada
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Vuelo no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+    #Eliminar aviones
+
+    delete:
+      tags:
+        - Aerolíneas
+      summary: Elimina una aerolínea
+      description: A partir del Id de una aerolínea se borra la misma aerolínea
+      parameters:
+        - name: airlineId
+          in: path
+          description: Id de la aerolínea necesario para borrar
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        '204':
+          description: La aerolínea se ha borrado correctamente
+
+        '400':
+          description: Error al validar Id
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+
+
 components:
   schemas:
     # Schemas Flight
@@ -815,6 +1046,40 @@ components:
           example: true
           description: Nos indica si el avión está en activo o no
 
+    # Schemas airline
+    airline:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 23
+          format: int32
+        name:
+          type: string
+          example: Iberia
+          description: El nombre de la aerolinea
+        telephone:
+          type: integer
+          example: 636756345
+          description: teléfono de contacto
+        foundationYear:
+          type: string
+          example: 1999-10-25
+          description: Fecha de inauguración de la aerolínea
+        fleet:
+          type: number
+          format: int32
+          example: 100
+          description: Numero de la flota de la aerolínea
+        onTime:
+          type: number
+          format: float
+          example: 92.3
+          description: Porcentaje de vuelos que salen a tiempo
+        active:
+          type: boolean
+          example: true
+          description: Nos indica si la aerolínea está en activo o no
 
     #    Errores
     ErrorResponse:

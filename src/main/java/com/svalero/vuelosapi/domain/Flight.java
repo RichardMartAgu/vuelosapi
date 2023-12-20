@@ -26,6 +26,7 @@ public class Flight {
     @Future(message = "La fecha tiene que ser mayor que el día de hoy")
     private LocalDate departureDate;
     @Min(value = 0, message = "La puerta de embarque debe ser mayor que cero")
+    @NotNull(message = "La puerta de embarque es obligatoria")
     @Column
     private int gate;
     @Column
