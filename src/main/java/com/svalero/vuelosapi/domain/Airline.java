@@ -1,15 +1,14 @@
 package com.svalero.vuelosapi.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -26,6 +25,7 @@ public class Airline {
     private String name;
     @NotNull(message = "El teléfono es obligatorio")
     @Column
+    @Positive
     private int telephone;
     @NotNull(message = "El el año es obligatorio")
     @Column
@@ -33,12 +33,15 @@ public class Airline {
     @Min(value = 0, message = "La flota debe ser mayor que cero")
     @NotNull(message = "La flota es obligatoria")
     @Column
+    @Positive
     private int fleet;
     @Column
     private float onTime;
     @Column
     private boolean active;
 
-
+    @OneToMany(mappedBy = "airline")
+    @JsonIgnore
+    private List<Airplane> airplanes;
 
 }

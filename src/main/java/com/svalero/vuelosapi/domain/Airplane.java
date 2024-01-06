@@ -29,10 +29,17 @@ public class Airplane {
     private LocalDate manufacturingDate;
     @Min(value = 0, message = "La capacidad debe ser mayor que cero")
     @Column
+    @Positive
     private int passengerCapacity;
     @Column
+    @Positive
     private float maxSpeed;
     @Column
     private boolean active;
+
+    @ManyToOne
+    @NotNull(message = "El Id de la aerolínea asociada es obligatorio")
+    @JoinColumn(name = "airline_id")
+    private Airline airline;
 
 }

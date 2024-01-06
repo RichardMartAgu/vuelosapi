@@ -2,6 +2,7 @@ package com.svalero.vuelosapi.controller;
 
 import com.svalero.vuelosapi.domain.AirportStore;
 import com.svalero.vuelosapi.domain.ErrorResponse;
+import com.svalero.vuelosapi.exceptions.AirportNotFoundException;
 import com.svalero.vuelosapi.exceptions.AirportStoreNotFoundException;
 import com.svalero.vuelosapi.service.AirportStoreService;
 import jakarta.validation.Valid;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,8 +27,8 @@ public class AirportStoreController {
 
     @GetMapping("/airportStores")
     public ResponseEntity<List<AirportStore>> getAll(@Valid @RequestParam(defaultValue = "") String name,
-                                                @RequestParam(defaultValue = "") String type,
-                                                @RequestParam(defaultValue = "0") float averageProfit) {
+                                                     @RequestParam(defaultValue = "") String type,
+                                                     @RequestParam(defaultValue = "0") float averageProfit) {
 
         List<AirportStore> airportStoreList = airportStoreService.findAll();
 
@@ -40,7 +42,7 @@ public class AirportStoreController {
                     .filter(airportStore -> airportStore.getType().contains(type))
                     .collect(Collectors.toList());
         }
-        if (averageProfit >0) {
+        if (averageProfit > 0) {
             airportStoreList = airportStoreList.stream()
                     .filter(airportStore -> airportStore.getAverageProfit() == (averageProfit))
                     .collect(Collectors.toList());
@@ -56,8 +58,19 @@ public class AirportStoreController {
         return new ResponseEntity<>(airportStore, HttpStatus.OK);
     }
 
+    @GetMapping("/airport/{airportId}/airportStores")
+    public ResponseEntity<List<AirportStore>> getStoreByAirportId(@PathVariable long airportId) {
+        try {
+            List<AirportStore> airportStore = airportStoreService.findStoreByAirportId(airportId);
+            return new ResponseEntity<>(airportStore, HttpStatus.OK);
+        } catch (AirportNotFoundException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Airport not found with ID: " + airportId, e);
+        }
+    }
+
     @PostMapping("/airportStores")
-    public ResponseEntity<Void> saveAirportStore(@Valid@RequestBody AirportStore airportStore) {
+    public ResponseEntity<Void> saveAirportStore(@Valid @RequestBody AirportStore airportStore) {
         airportStoreService.saveAirportStore(airportStore);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -69,8 +82,8 @@ public class AirportStoreController {
     }
 
     @PutMapping("/airportStore/{airportStoreId}")
-    public ResponseEntity<Void> modifyAirportStore(@Valid@RequestBody AirportStore airportStore, @PathVariable long airportStoreId)
-            throws AirportStoreNotFoundException{
+    public ResponseEntity<Void> modifyAirportStore(@Valid @RequestBody AirportStore airportStore, @PathVariable long airportStoreId)
+            throws AirportStoreNotFoundException {
         airportStoreService.modifyAirportStore(airportStore, airportStoreId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -80,6 +93,7 @@ public class AirportStoreController {
         ErrorResponse errorResponse = ErrorResponse.generalError(404, pnfe.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleException(MethodArgumentNotValidException manve) {
         Map<String, String> errors = new HashMap<>();

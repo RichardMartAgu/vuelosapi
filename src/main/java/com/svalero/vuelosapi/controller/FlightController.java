@@ -2,6 +2,7 @@ package com.svalero.vuelosapi.controller;
 
 import com.svalero.vuelosapi.domain.ErrorResponse;
 import com.svalero.vuelosapi.domain.Flight;
+import com.svalero.vuelosapi.exceptions.AirportNotFoundException;
 import com.svalero.vuelosapi.exceptions.FlightNotFoundException;
 import com.svalero.vuelosapi.service.FlightService;
 import jakarta.validation.Valid;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -49,6 +51,18 @@ public class FlightController {
         return new ResponseEntity<>(flights, HttpStatus.OK);
     }
 
+    @GetMapping("/airport/{airportId}/flights")
+    public ResponseEntity<List<Flight>> getFlightsByAirportId(@PathVariable long airportId) {
+        try {
+            List<Flight> flights = flightService.findFlightsByAirportId(airportId);
+            return new ResponseEntity<>(flights, HttpStatus.OK);
+        } catch (AirportNotFoundException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Airport not found with ID: " + airportId, e);
+        }
+    }
+
+
     @GetMapping("/flight/{flightId}")
     public ResponseEntity<Flight> getFlight(@PathVariable long flightId) throws FlightNotFoundException {
         Optional<Flight> optionalFlight = flightService.findById(flightId);
@@ -57,19 +71,19 @@ public class FlightController {
     }
 
     @PostMapping("/flights")
-    public ResponseEntity<Void> saveFlight(@Valid@RequestBody Flight flight) {
+    public ResponseEntity<Void> saveFlight(@Valid @RequestBody Flight flight) {
         flightService.saveFlight(flight);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/flight/{flightId}")
-    public ResponseEntity<Void> daleteFlight(@PathVariable long flightId) throws FlightNotFoundException {
+    public ResponseEntity<Void> deleteFlight(@PathVariable long flightId) throws FlightNotFoundException {
         flightService.removeFlight(flightId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/flight/{flightId}")
-    public ResponseEntity<Void> modifyFlight(@Valid@RequestBody Flight flight, @PathVariable long flightId) throws FlightNotFoundException{
+    public ResponseEntity<Void> modifyFlight(@Valid @RequestBody Flight flight, @PathVariable long flightId) throws FlightNotFoundException {
         flightService.modifyFlight(flight, flightId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -79,6 +93,7 @@ public class FlightController {
         ErrorResponse errorResponse = ErrorResponse.generalError(404, pnfe.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleException(MethodArgumentNotValidException manve) {
         Map<String, String> errors = new HashMap<>();

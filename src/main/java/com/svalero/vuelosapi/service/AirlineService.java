@@ -25,12 +25,13 @@ public class AirlineService {
         return airlineRepository.findById(id);
     }
 
+
     public void saveAirline(Airline airline) {
         airlineRepository.save(airline);
     }
 
     public void removeAirline(long airlineId) throws AirlineNotFoundException {
-        Airline airline = airlineRepository.findById(airlineId).orElseThrow(()-> new AirlineNotFoundException(airlineId));
+        Airline airline = airlineRepository.findById(airlineId).orElseThrow(() -> new AirlineNotFoundException(airlineId));
         airlineRepository.delete(airline);
     }
 
@@ -47,8 +48,8 @@ public class AirlineService {
 
 
             airlineRepository.save(existingAirline);
-        }
-        else { throw new AirlineNotFoundException (airlineId);
+        } else {
+            throw new AirlineNotFoundException(airlineId);
 
         }
 

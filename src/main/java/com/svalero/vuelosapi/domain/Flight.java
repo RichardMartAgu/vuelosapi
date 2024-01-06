@@ -30,8 +30,14 @@ public class Flight {
     @Column
     private int gate;
     @Column
+    @Positive
     private float duration;
     @Column
-    private boolean international;
+    private boolean departure;
+
+    @ManyToOne
+    @NotNull(message = "El Id del aeropuerto asociado es obligatorio")
+    @JoinColumn(name = "airport_id")
+    private Airport airport;
 
 }

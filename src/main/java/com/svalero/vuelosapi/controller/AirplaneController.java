@@ -2,6 +2,7 @@ package com.svalero.vuelosapi.controller;
 
 import com.svalero.vuelosapi.domain.Airplane;
 import com.svalero.vuelosapi.domain.ErrorResponse;
+import com.svalero.vuelosapi.exceptions.AirlineNotFoundException;
 import com.svalero.vuelosapi.exceptions.AirplaneNotFoundException;
 import com.svalero.vuelosapi.service.AirplaneService;
 import jakarta.validation.Valid;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.HashMap;
@@ -26,8 +28,8 @@ public class AirplaneController {
 
     @GetMapping("/airplanes")
     public ResponseEntity<List<Airplane>> getAll(@Valid @RequestParam(defaultValue = "") String model,
-                                                @RequestParam(defaultValue = "0") int passengerCapacity,
-                                                @RequestParam(required = false) LocalDate manufacturingDate) {
+                                                 @RequestParam(defaultValue = "0") int passengerCapacity,
+                                                 @RequestParam(required = false) LocalDate manufacturingDate) {
 
         List<Airplane> airplaneList = airplaneService.findAll();
 
@@ -38,7 +40,7 @@ public class AirplaneController {
         }
         if (passengerCapacity > 0) {
             airplaneList = airplaneList.stream()
-                    .filter(airport -> airport.getPassengerCapacity() ==passengerCapacity)
+                    .filter(airport -> airport.getPassengerCapacity() == passengerCapacity)
                     .collect(Collectors.toList());
         }
         if (manufacturingDate != null) {
@@ -49,7 +51,6 @@ public class AirplaneController {
         return new ResponseEntity<>(airplaneList, HttpStatus.OK);
     }
 
-
     @GetMapping("/airplane/{airplaneId}")
     public ResponseEntity<Airplane> getAirplane(@PathVariable long airplaneId) throws AirplaneNotFoundException {
         Optional<Airplane> optionalAirplane = airplaneService.findById(airplaneId);
@@ -57,20 +58,31 @@ public class AirplaneController {
         return new ResponseEntity<>(airplane, HttpStatus.OK);
     }
 
+    @GetMapping("/airline/{airlineId}/airplanes")
+    public ResponseEntity<List<Airplane>> getAirplaneByAirlineId(@PathVariable long airlineId) {
+        try {
+            List<Airplane> airplane = airplaneService.findAirplaneByAirlineId(airlineId);
+            return new ResponseEntity<>(airplane, HttpStatus.OK);
+        } catch (AirlineNotFoundException e) {
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND, "Airline not found with ID: " + airlineId, e);
+        }
+    }
+
     @PostMapping("/airplanes")
-    public ResponseEntity<Void> saveAirplane(@Valid@RequestBody Airplane airplane) {
+    public ResponseEntity<Void> saveAirplane(@Valid @RequestBody Airplane airplane) {
         airplaneService.saveAirplane(airplane);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/airplane/{airplaneId}")
-    public ResponseEntity<Void> daleteAirplane(@PathVariable long airplaneId) throws AirplaneNotFoundException {
+    public ResponseEntity<Void> deleteAirplane(@PathVariable long airplaneId) throws AirplaneNotFoundException {
         airplaneService.removeAirplane(airplaneId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/airplane/{airplaneId}")
-    public ResponseEntity<Void> modifyAirplane(@Valid@RequestBody Airplane airplane, @PathVariable long airplaneId) throws AirplaneNotFoundException{
+    public ResponseEntity<Void> modifyAirplane(@Valid @RequestBody Airplane airplane, @PathVariable long airplaneId) throws AirplaneNotFoundException {
         airplaneService.modifyAirplane(airplane, airplaneId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -80,6 +92,7 @@ public class AirplaneController {
         ErrorResponse errorResponse = ErrorResponse.generalError(404, pnfe.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleException(MethodArgumentNotValidException manve) {
         Map<String, String> errors = new HashMap<>();

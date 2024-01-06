@@ -1,6 +1,8 @@
 package com.svalero.vuelosapi.service;
 
+import com.svalero.vuelosapi.domain.Airport;
 import com.svalero.vuelosapi.domain.AirportStore;
+import com.svalero.vuelosapi.exceptions.AirportNotFoundException;
 import com.svalero.vuelosapi.exceptions.AirportStoreNotFoundException;
 import com.svalero.vuelosapi.repository.AirportStoreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,8 @@ public class AirportStoreService {
 
     @Autowired
     private AirportStoreRepository airportStoreRepository;
+    @Autowired
+    private AirportService airportService;
 
 
     public List<AirportStore> findAll() {
@@ -24,12 +28,21 @@ public class AirportStoreService {
         return airportStoreRepository.findById(id);
     }
 
+    public List<AirportStore> findStoreByAirportId(long airportId) throws AirportNotFoundException {
+        Optional<Airport> airportOptional = airportService.findById(airportId);
+        if (airportOptional.isPresent()) {
+            return airportStoreRepository.findStoreByAirport(airportOptional);
+        } else {
+            throw new AirportNotFoundException();
+        }
+    }
+
     public void saveAirportStore(AirportStore airportStore) {
         airportStoreRepository.save(airportStore);
     }
 
     public void removeAirportStore(long airportStoreId) throws AirportStoreNotFoundException {
-        AirportStore airportStore = airportStoreRepository.findById(airportStoreId).orElseThrow(()-> new AirportStoreNotFoundException(airportStoreId));
+        AirportStore airportStore = airportStoreRepository.findById(airportStoreId).orElseThrow(() -> new AirportStoreNotFoundException(airportStoreId));
         airportStoreRepository.delete(airportStore);
     }
 
@@ -43,10 +56,11 @@ public class AirportStoreService {
             existingAirportStore.setAverageProfit(newAirportStore.getAverageProfit());
             existingAirportStore.setOpeningDay(newAirportStore.getOpeningDay());
             existingAirportStore.setOpen(newAirportStore.isOpen());
+            existingAirportStore.setAirport(newAirportStore.getAirport());
 
             airportStoreRepository.save(existingAirportStore);
-        }
-        else { throw new AirportStoreNotFoundException (airportStoreId);
+        } else {
+            throw new AirportStoreNotFoundException(airportStoreId);
 
         }
 

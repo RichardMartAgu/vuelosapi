@@ -29,7 +29,7 @@ public class AirportService {
     }
 
     public void removeAirport(long airportId) throws AirportNotFoundException {
-        Airport airport = airportRepository.findById(airportId).orElseThrow(()-> new AirportNotFoundException(airportId));
+        Airport airport = airportRepository.findById(airportId).orElseThrow(() -> new AirportNotFoundException(airportId));
         airportRepository.delete(airport);
     }
 
@@ -45,8 +45,8 @@ public class AirportService {
             existingAirport.setActive(newAirport.isActive());
 
             airportRepository.save(existingAirport);
-        }
-        else { throw new AirportNotFoundException (airportId);
+        } else {
+            throw new AirportNotFoundException(airportId);
 
         }
 

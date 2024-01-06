@@ -2,7 +2,6 @@ package com.svalero.vuelosapi.controller;
 
 import com.svalero.vuelosapi.domain.Airline;
 import com.svalero.vuelosapi.domain.ErrorResponse;
-import com.svalero.vuelosapi.domain.Flight;
 import com.svalero.vuelosapi.exceptions.AirlineNotFoundException;
 import com.svalero.vuelosapi.service.AirlineService;
 import jakarta.validation.Valid;
@@ -13,7 +12,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +26,7 @@ public class AirlineController {
     @GetMapping("/airlines")
     public ResponseEntity<List<Airline>> getAll(@Valid @RequestParam(defaultValue = "") String name,
                                                 @RequestParam(defaultValue = "0") int telephone,
-                                               @RequestParam(defaultValue = "0") int fleet) {
+                                                @RequestParam(defaultValue = "0") int fleet) {
 
         List<Airline> airlinesList = airlineService.findAll();
 
@@ -58,28 +56,30 @@ public class AirlineController {
     }
 
     @PostMapping("/airline")
-    public ResponseEntity<Void> saveAirline(@Valid@RequestBody Airline airline) {
+    public ResponseEntity<Void> saveAirline(@Valid @RequestBody Airline airline) {
         airlineService.saveAirline(airline);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/airline/{airlineId}")
-    public ResponseEntity<Void> daleteAirline(@PathVariable long airlineId) throws AirlineNotFoundException {
+    public ResponseEntity<Void> deleteAirline(@PathVariable long airlineId) throws AirlineNotFoundException {
         airlineService.removeAirline(airlineId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/airline/{airlineId}")
-    public ResponseEntity<Void> modifyAirline(@Valid@RequestBody Airline airline, @PathVariable long airlineId) throws AirlineNotFoundException{
+    public ResponseEntity<Void> modifyAirline(@Valid @RequestBody Airline airline, @PathVariable long airlineId) throws AirlineNotFoundException {
         airlineService.modifyAirline(airline, airlineId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
 
     @ExceptionHandler(AirlineNotFoundException.class)
     public ResponseEntity<ErrorResponse> airlineNotFoundException(AirlineNotFoundException pnfe) {
         ErrorResponse errorResponse = ErrorResponse.generalError(404, pnfe.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleException(MethodArgumentNotValidException manve) {
         Map<String, String> errors = new HashMap<>();

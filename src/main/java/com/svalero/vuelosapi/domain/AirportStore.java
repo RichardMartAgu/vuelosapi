@@ -1,10 +1,7 @@
 package com.svalero.vuelosapi.domain;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,6 +25,7 @@ public class AirportStore {
     @NotNull(message = "El tipo de tienda es obligatorio")
     private String type;
     @Column
+    @Positive
     private int telephone;
     @Column
     @Min(value = 0, message = "La media del beneficio debe ser mayor que cero")
@@ -37,5 +35,10 @@ public class AirportStore {
     private LocalDate openingDay;
     @Column
     private boolean open;
+
+    @ManyToOne
+    @NotNull(message = "El Id del aeropuerto asociado es obligatorio")
+    @JoinColumn(name = "airport_id")
+    private Airport airport;
 
 }

@@ -58,19 +58,19 @@ public class AirportController {
     }
 
     @PostMapping("/airports")
-    public ResponseEntity<Void> saveAirport(@Valid@RequestBody Airport airport) {
+    public ResponseEntity<Void> saveAirport(@Valid @RequestBody Airport airport) {
         airportService.saveAirport(airport);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("/airport/{airportId}")
-    public ResponseEntity<Void> daleteAirport(@PathVariable long airportId) throws AirportNotFoundException {
+    public ResponseEntity<Void> deleteAirport(@PathVariable long airportId) throws AirportNotFoundException {
         airportService.removeAirport(airportId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/airport/{airportId}")
-    public ResponseEntity<Void> modifyAirport(@Valid@RequestBody Airport airport, @PathVariable long airportId) throws AirportNotFoundException{
+    public ResponseEntity<Void> modifyAirport(@Valid @RequestBody Airport airport, @PathVariable long airportId) throws AirportNotFoundException {
         airportService.modifyAirport(airport, airportId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -80,6 +80,7 @@ public class AirportController {
         ErrorResponse errorResponse = ErrorResponse.generalError(404, pnfe.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleException(MethodArgumentNotValidException manve) {
         Map<String, String> errors = new HashMap<>();

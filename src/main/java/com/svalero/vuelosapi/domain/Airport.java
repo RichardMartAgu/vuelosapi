@@ -1,5 +1,6 @@
 package com.svalero.vuelosapi.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -7,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -28,10 +30,19 @@ public class Airport {
     @Column
     private LocalDate foundationYear;
     @Column
-    private float latitude;
+    private double latitude;
     @Column
-    private float longitude;
+    private double longitude;
     @Column
     private boolean active;
+
+
+    @OneToMany(mappedBy = "airport")
+    @JsonIgnore
+    private List<AirportStore> airportStores;
+
+    @OneToMany(mappedBy = "airport")
+    @JsonIgnore
+    private List<Flight> flights;
 
 }

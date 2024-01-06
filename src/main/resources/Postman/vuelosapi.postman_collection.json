@@ -1,0 +1,964 @@
+{
+	"info": {
+		"_postman_id": "7048b6eb-0755-432c-885a-93b6b5644b6d",
+		"name": "vuelosapi",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31669740"
+	},
+	"item": [
+		{
+			"name": "flights",
+			"item": [
+				{
+					"name": "/flights",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/flights",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"flights"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/flight/:flightId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/flight/:flightId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"flight",
+								":flightId"
+							],
+							"variable": [
+								{
+									"key": "flightId",
+									"value": "76"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/airport/:airportId/flights",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/airport/:airportId/flights",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"airport",
+								":airportId",
+								"flights"
+							],
+							"variable": [
+								{
+									"key": "airportId",
+									"value": "7"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/flights?name=&departureDate=&gate=(findBy : name, departureDate and/or gate)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/flights?name=&departureDate=&gate=6",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"flights"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": ""
+								},
+								{
+									"key": "departureDate",
+									"value": ""
+								},
+								{
+									"key": "gate",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/flight",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Zaragoza-Malllorca\",\r\n    \"departureDate\": \"2035-01-18\",\r\n    \"gate\": 6,\r\n    \"duration\": 2.5,\r\n    \"departure\": true,\r\n    \"airport\": {\r\n        \"id\": 7\r\n    }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/flights",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"flights"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/flight/:flightId",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/flight/:flightId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"flight",
+								":flightId"
+							],
+							"variable": [
+								{
+									"key": "flightId",
+									"value": "33"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/flight/:flightId",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Zaragoza-Malllorca\",\r\n    \"departureDate\": \"2023-12-28\",\r\n    \"gate\": 5,\r\n    \"duration\": 5.5,\r\n    \"departure\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/airplane/:airplaneId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"airplane",
+								":airplaneId"
+							],
+							"variable": [
+								{
+									"key": "airplaneId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Gestión de vuelos"
+		},
+		{
+			"name": "Airports",
+			"item": [
+				{
+					"name": "/airports",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/airports",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"airports"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/airport/:airportId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/airport/:airportId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"airport",
+								":airportId"
+							],
+							"variable": [
+								{
+									"key": "airportId",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/airport?name=&city=&active=(findBy : name, city and/or foundationYear)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/airports?name=&city=Madrid&foundationYear=",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"airports"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": ""
+								},
+								{
+									"key": "city",
+									"value": "Madrid"
+								},
+								{
+									"key": "foundationYear",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/airport",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Aeropuerto de Mostoles\",\r\n    \"city\": \"Mostoles\",\r\n    \"foundationYear\": \"1965-10-20\",\r\n    \"latitude\": 41.6669 ,\r\n    \"longitude\": -1.0413, \r\n    \"active\": true\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/airports",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"airports"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/airport/:airportId",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/airport/:airportId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"airport",
+								":airportId"
+							],
+							"variable": [
+								{
+									"key": "airportId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/airport/:airportId",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Aeropuerto de Barcelona\",\r\n    \"city\": \"Barcelona\",\r\n    \"foundationYear\": \"1965-10-06\",\r\n    \"latitude\": 41.6669 ,\r\n    \"longitude\": -1.0413, \r\n    \"active\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/airport/:airportId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"airport",
+								":airportId"
+							],
+							"variable": [
+								{
+									"key": "airportId",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Airplane",
+			"item": [
+				{
+					"name": "/airplanes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/airplanes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"airplanes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/airplane/:airplaneId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/airplane/:airplaneId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"airplane",
+								":airplaneId"
+							],
+							"variable": [
+								{
+									"key": "airplaneId",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/airline/:airlineId/airplanes",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/airline/:airlineId/airplanes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"airline",
+								":airlineId",
+								"airplanes"
+							],
+							"variable": [
+								{
+									"key": "airlineId",
+									"value": "11"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/airplanes?model=&manufacturingDate=&passengerCapacity=(findBy : model, manufacturingDate and/or passengerCapacity)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/airplanes?model=Boeing 737&passengerCapacity=&manufacturingDate=",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"airplanes"
+							],
+							"query": [
+								{
+									"key": "model",
+									"value": "Boeing 737"
+								},
+								{
+									"key": "passengerCapacity",
+									"value": ""
+								},
+								{
+									"key": "manufacturingDate",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/airplanes",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"model\": \"Boeing 737\",\r\n    \"manufacturingDate\": \"2010-01-18\",\r\n    \"passengerCapacity\": 200,\r\n    \"maxSpeed\": 560,\r\n    \"active\": true,\r\n    \"airline\": {\r\n        \"id\": 11\r\n    }\r\n}\r\n\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/airplanes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"airplanes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/airplane/:airplaneId",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/airplane/:airplaneId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"airplane",
+								":airplaneId"
+							],
+							"variable": [
+								{
+									"key": "airplaneId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/airplane/:airplaneId",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"model\": \"Boeing 737\",\r\n    \"manufacturingDate\": \"2010-01-18\",\r\n    \"passengerCapacity\": 200,\r\n    \"maxSpeed\": 560,\r\n    \"active\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/airplane/:airplaneId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"airplane",
+								":airplaneId"
+							],
+							"variable": [
+								{
+									"key": "airplaneId",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Airlines",
+			"item": [
+				{
+					"name": "/airlines",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/airlines",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"airlines"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/airline/:airlineId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/airline/:airlineId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"airline",
+								":airlineId"
+							],
+							"variable": [
+								{
+									"key": "airlineId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/airlines?name=SkyExpres&telephone=&fleet=(findBy : name, telephone and/or fleet)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/airlines?name=SkyExpres&telephone=&fleet=",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"airlines"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "SkyExpres"
+								},
+								{
+									"key": "telephone",
+									"value": ""
+								},
+								{
+									"key": "fleet",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/airline",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Zaragoza-Malllorca\",\r\n    \"departureDate\": \"2030-01-18\",\r\n    \"gate\": 25,\r\n    \"duration\": 3.5,\r\n    \"international\": true\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/flights",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"flights"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/airline/:airlineId",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/airline/:airlineId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"airline",
+								":airlineId"
+							],
+							"variable": [
+								{
+									"key": "airlineId",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/airline/:airlineId",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Sky Express\",\r\n    \"telephone\": \"636756345\",\r\n    \"foundationYear\":\"2010-01-18\",\r\n    \"fleet\": 50,\r\n    \"onTime\": 92.3,\r\n    \"active\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/airline/:airlineId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"airline",
+								":airlineId"
+							],
+							"variable": [
+								{
+									"key": "airlineId",
+									"value": "4"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "AirpotStores",
+			"item": [
+				{
+					"name": "/airportStores",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/airportStores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"airportStores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/airportStore/:airportStoreId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/airportStore/:airportStoreId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"airportStore",
+								":airportStoreId"
+							],
+							"variable": [
+								{
+									"key": "airportStoreId",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/airport/:airportId/airportStore",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/airport/:airportId/airportStores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"airport",
+								":airportId",
+								"airportStores"
+							],
+							"variable": [
+								{
+									"key": "airportId",
+									"value": "7"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/airportStores?name=&type=&averageProfit=(findBy : name, typeand/or averageProfit)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/airportStores?name=BarLucia&type=&averageProfit=80.4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"airportStores"
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "BarLucia"
+								},
+								{
+									"key": "type",
+									"value": ""
+								},
+								{
+									"key": "averageProfit",
+									"value": "80.4"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/airportStores",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"ColoniasPepa\",\r\n    \"type\": \"Perfumería\",\r\n    \"telephone\": \"973554603\",\r\n    \"averageProfit\": 80.4,\r\n    \"openingDay\": \"1965-10-05\", \r\n    \"open\": true,\r\n    \"airport\": {\r\n        \"id\": 7\r\n    }\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/airportStores",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"airportStores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/airportStore/:airportStoreId",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/airportStore/:airportStoreId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"airportStore",
+								":airportStoreId"
+							],
+							"variable": [
+								{
+									"key": "airportStoreId",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "/airportStore/:airportStoreId",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"BarPepe\",\r\n    \"type\": \"Restauración\",\r\n    \"telephone\": \"973554603\",\r\n    \"averageProfit\": 75.4,\r\n    \"openingDay\": \"1965-10-05\", \r\n    \"open\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/airportStore/:airportStoreId",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"airportStore",
+								":airportStoreId"
+							],
+							"variable": [
+								{
+									"key": "airportStoreId",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
