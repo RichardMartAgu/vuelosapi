@@ -1,9 +1,11 @@
 package com.svalero.vuelosapi.controller;
 
 import com.svalero.vuelosapi.domain.Airplane;
+import com.svalero.vuelosapi.dto.AirplaneOutDto;
 import com.svalero.vuelosapi.domain.ErrorResponse;
 import com.svalero.vuelosapi.exceptions.AirlineNotFoundException;
 import com.svalero.vuelosapi.exceptions.AirplaneNotFoundException;
+import com.svalero.vuelosapi.service.AirlineService;
 import com.svalero.vuelosapi.service.AirplaneService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,8 @@ import java.util.stream.Collectors;
 public class AirplaneController {
     @Autowired
     private AirplaneService airplaneService;
+    @Autowired
+    private AirlineService airlineService;
 
     @GetMapping("/airplanes")
     public ResponseEntity<List<Airplane>> getAll(@Valid @RequestParam(defaultValue = "") String model,
@@ -69,10 +73,10 @@ public class AirplaneController {
         }
     }
 
-    @PostMapping("/airplanes")
-    public ResponseEntity<Void> saveAirplane(@Valid @RequestBody Airplane airplane) {
-        airplaneService.saveAirplane(airplane);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    @PostMapping("/airplane")
+    public ResponseEntity<AirplaneOutDto> saveAirplane(@Valid @RequestBody Airplane airplane) {
+        AirplaneOutDto newAirplane = airplaneService.saveAirplane(airplane);
+        return new ResponseEntity<>(newAirplane, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/airplane/{airplaneId}")

@@ -1,10 +1,11 @@
 package com.svalero.vuelosapi.service;
 
-import com.svalero.vuelosapi.domain.Airport;
-import com.svalero.vuelosapi.domain.AirportStore;
+import com.svalero.vuelosapi.domain.*;
+import com.svalero.vuelosapi.dto.AirportStoreOutDto;
 import com.svalero.vuelosapi.exceptions.AirportNotFoundException;
 import com.svalero.vuelosapi.exceptions.AirportStoreNotFoundException;
 import com.svalero.vuelosapi.repository.AirportStoreRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,8 @@ public class AirportStoreService {
     private AirportStoreRepository airportStoreRepository;
     @Autowired
     private AirportService airportService;
+    @Autowired
+    private ModelMapper modelMapper;
 
 
     public List<AirportStore> findAll() {
@@ -37,8 +40,11 @@ public class AirportStoreService {
         }
     }
 
-    public void saveAirportStore(AirportStore airportStore) {
-        airportStoreRepository.save(airportStore);
+    public AirportStoreOutDto saveAirportStore(AirportStore airportStore) {
+        AirportStore newAirportStore = airportStoreRepository.save(airportStore);
+        AirportStoreOutDto airportStoreOutDto = new AirportStoreOutDto();
+        modelMapper.map(newAirportStore, airportStoreOutDto);
+        return airportStoreOutDto;
     }
 
     public void removeAirportStore(long airportStoreId) throws AirportStoreNotFoundException {

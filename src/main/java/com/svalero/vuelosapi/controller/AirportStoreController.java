@@ -1,6 +1,7 @@
 package com.svalero.vuelosapi.controller;
 
 import com.svalero.vuelosapi.domain.AirportStore;
+import com.svalero.vuelosapi.dto.AirportStoreOutDto;
 import com.svalero.vuelosapi.domain.ErrorResponse;
 import com.svalero.vuelosapi.exceptions.AirportNotFoundException;
 import com.svalero.vuelosapi.exceptions.AirportStoreNotFoundException;
@@ -70,9 +71,9 @@ public class AirportStoreController {
     }
 
     @PostMapping("/airportStores")
-    public ResponseEntity<Void> saveAirportStore(@Valid @RequestBody AirportStore airportStore) {
-        airportStoreService.saveAirportStore(airportStore);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<AirportStoreOutDto> saveAirportStore(@Valid @RequestBody AirportStore airportStore) {
+        AirportStoreOutDto newAirportStore = airportStoreService.saveAirportStore(airportStore);
+        return new ResponseEntity<>(newAirportStore, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/airportStore/{airportStoreId}")

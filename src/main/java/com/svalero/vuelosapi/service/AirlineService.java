@@ -26,8 +26,9 @@ public class AirlineService {
     }
 
 
-    public void saveAirline(Airline airline) {
+    public Airline saveAirline(Airline airline) {
         airlineRepository.save(airline);
+        return airline;
     }
 
     public void removeAirline(long airlineId) throws AirlineNotFoundException {
@@ -45,13 +46,9 @@ public class AirlineService {
             existingAirline.setFleet(newAirline.getFleet());
             existingAirline.setOnTime(newAirline.getOnTime());
             existingAirline.setActive(newAirline.isActive());
-
-
             airlineRepository.save(existingAirline);
         } else {
             throw new AirlineNotFoundException(airlineId);
-
         }
-
     }
 }

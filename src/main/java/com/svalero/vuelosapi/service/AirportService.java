@@ -24,8 +24,9 @@ public class AirportService {
         return airportRepository.findById(id);
     }
 
-    public void saveAirport(Airport airport) {
+    public Airport saveAirport(Airport airport) {
         airportRepository.save(airport);
+        return airport;
     }
 
     public void removeAirport(long airportId) throws AirportNotFoundException {

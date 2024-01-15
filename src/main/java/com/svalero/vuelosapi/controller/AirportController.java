@@ -58,9 +58,9 @@ public class AirportController {
     }
 
     @PostMapping("/airports")
-    public ResponseEntity<Void> saveAirport(@Valid @RequestBody Airport airport) {
-        airportService.saveAirport(airport);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<Airport> saveAirport(@Valid @RequestBody Airport airport) {
+        Airport newAirport = airportService.saveAirport(airport);
+        return new ResponseEntity<>(newAirport, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/airport/{airportId}")

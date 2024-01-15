@@ -2,6 +2,7 @@ package com.svalero.vuelosapi.controller;
 
 import com.svalero.vuelosapi.domain.ErrorResponse;
 import com.svalero.vuelosapi.domain.Flight;
+import com.svalero.vuelosapi.dto.FlightOutDto;
 import com.svalero.vuelosapi.exceptions.AirportNotFoundException;
 import com.svalero.vuelosapi.exceptions.FlightNotFoundException;
 import com.svalero.vuelosapi.service.FlightService;
@@ -71,9 +72,9 @@ public class FlightController {
     }
 
     @PostMapping("/flights")
-    public ResponseEntity<Void> saveFlight(@Valid @RequestBody Flight flight) {
-        flightService.saveFlight(flight);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<FlightOutDto> saveFlight(@Valid @RequestBody Flight flight) {
+        FlightOutDto newFlight = flightService.saveFlight(flight);
+        return new ResponseEntity<>(newFlight, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/flight/{flightId}")

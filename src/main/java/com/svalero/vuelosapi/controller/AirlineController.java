@@ -56,9 +56,9 @@ public class AirlineController {
     }
 
     @PostMapping("/airline")
-    public ResponseEntity<Void> saveAirline(@Valid @RequestBody Airline airline) {
-        airlineService.saveAirline(airline);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<Airline> saveAirline(@Valid @RequestBody Airline airline) {
+        Airline newAirline = airlineService.saveAirline(airline);
+        return new ResponseEntity<>(newAirline, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/airline/{airlineId}")

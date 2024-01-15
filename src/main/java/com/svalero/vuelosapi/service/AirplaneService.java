@@ -2,9 +2,11 @@ package com.svalero.vuelosapi.service;
 
 import com.svalero.vuelosapi.domain.Airline;
 import com.svalero.vuelosapi.domain.Airplane;
+import com.svalero.vuelosapi.dto.AirplaneOutDto;
 import com.svalero.vuelosapi.exceptions.AirlineNotFoundException;
 import com.svalero.vuelosapi.exceptions.AirplaneNotFoundException;
 import com.svalero.vuelosapi.repository.AirplaneRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,8 @@ public class AirplaneService {
     private AirplaneRepository airplaneRepository;
     @Autowired
     private AirlineService airlineService;
+    @Autowired
+    private ModelMapper modelMapper;
 
     public List<Airplane> findAll() {
         return airplaneRepository.findAll();
@@ -36,8 +40,11 @@ public class AirplaneService {
         }
     }
 
-    public void saveAirplane(Airplane airplane) {
-        airplaneRepository.save(airplane);
+    public AirplaneOutDto saveAirplane(Airplane airplane) {
+        Airplane newAirplane = airplaneRepository.save(airplane);
+        AirplaneOutDto airplaneOutDto = new AirplaneOutDto();
+        modelMapper.map(newAirplane, airplaneOutDto);
+        return airplaneOutDto;
     }
 
     public void removeAirplane(long airplaneId) throws AirplaneNotFoundException {
