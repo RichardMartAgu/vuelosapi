@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AirplanePatchDto {
     private String field;
-    private int maxSpeed;
+    private float maxSpeed;
 }
 
 

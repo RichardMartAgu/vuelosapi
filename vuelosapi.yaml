@@ -39,8 +39,43 @@ paths:
                         - properties:
                             airport:
                               $ref: '#/components/schemas/airport'
-
-
+              examples:
+                example1:
+                  summary: Ejemplo de vuelo 1
+                  value:
+                    - flight:
+                        id: 23
+                        name: "Zaragoza/Menorca"
+                        departureDate: "2020-01-01"
+                        gate: 5
+                        duration: 5.5
+                        departure: false
+                        airport:
+                          id: 23
+                          name: "Aeropuerto de Zaragoza."
+                          city: "Zaragoza"
+                          foundationYear: "1965-10-05"
+                          latitude: 41.6669
+                          longitude: -1.0413
+                          active: true
+                example2:
+                  summary: Ejemplo de vuelo 2
+                  value:
+                    - flight:
+                        id: 24
+                        name: "Barcelona/Paris"
+                        departureDate: "2020-02-01"
+                        gate: 7
+                        duration: 4.5
+                        departure: true
+                        airport:
+                          id: 24
+                          name: "Aeropuerto de Barcelona."
+                          city: "Barcelona"
+                          foundationYear: "1970-05-15"
+                          latitude: 41.2974
+                          longitude: 2.0833
+                          active: true
         '500':
           description: Internal Server Error
           content:
@@ -59,6 +94,12 @@ paths:
           application/json:
             schema:
               type: object
+              required:
+                - name
+                - departureDate
+                - gate
+                - departure
+                - airportId
               properties:
                 name:
                   type: string
@@ -82,6 +123,28 @@ paths:
                   type: boolean
                   example: false
                   description: Nos dice si despega o aterriza el vuelo.
+                airportId:
+                  type: number
+                  format: int32
+                  example: 2
+                  description: Id del aeropuerto asociado.
+
+            examples:
+              FullData:
+                summary: Ejemplo con todos los campos.
+                value:
+                  name: Zaragoza/Menorca
+                  departureDate: "2020-01-01"
+                  gate: 5
+                  duration: 5.5
+                  departure: false
+              MinimumData:
+                summary: Ejemplo con campos mínimos.
+                value:
+                  name: Barcelona/Paris
+                  departureDate: "2021-02-15"
+                  gate: 3
+
 
       responses:
         '201':
@@ -146,6 +209,43 @@ paths:
                         - properties:
                             airport:
                               $ref: '#/components/schemas/airport'
+              examples:
+                example1:
+                  summary: Ejemplo de vuelo 1
+                  value:
+                    - flight:
+                        id: 23
+                        name: "Zaragoza/Menorca"
+                        departureDate: "2020-01-01"
+                        gate: 5
+                        duration: 5.5
+                        departure: false
+                        airport:
+                          id: 23
+                          name: "Aeropuerto de Zaragoza."
+                          city: "Zaragoza"
+                          foundationYear: "1965-10-05"
+                          latitude: 41.6669
+                          longitude: -1.0413
+                          active: true
+                example2:
+                  summary: Ejemplo de vuelo 2
+                  value:
+                    - flight:
+                        id: 24
+                        name: "Barcelona/Paris"
+                        departureDate: "2020-02-01"
+                        gate: 7
+                        duration: 4.5
+                        departure: true
+                        airport:
+                          id: 24
+                          name: "Aeropuerto de Barcelona."
+                          city: "Barcelona"
+                          foundationYear: "1970-05-15"
+                          latitude: 41.2974
+                          longitude: 2.0833
+                          active: true
         '400':
           description: Error de validación en los datos de entrada.
           content:
@@ -197,7 +297,43 @@ paths:
                         - properties:
                             airport:
                               $ref: '#/components/schemas/airport'
-
+              examples:
+                example1:
+                  summary: Ejemplo de vuelo 1
+                  value:
+                    - flight:
+                        id: 23
+                        name: "Zaragoza/Menorca"
+                        departureDate: "2020-01-01"
+                        gate: 5
+                        duration: 5.5
+                        departure: false
+                        airport:
+                          id: 23
+                          name: "Aeropuerto de Zaragoza."
+                          city: "Zaragoza"
+                          foundationYear: "1965-10-05"
+                          latitude: 41.6669
+                          longitude: -1.0413
+                          active: true
+                example2:
+                  summary: Ejemplo de vuelo 2
+                  value:
+                    - flight:
+                        id: 24
+                        name: "Barcelona/Paris"
+                        departureDate: "2020-02-01"
+                        gate: 7
+                        duration: 4.5
+                        departure: true
+                        airport:
+                          id: 24
+                          name: "Aeropuerto de Barcelona."
+                          city: "Barcelona"
+                          foundationYear: "1970-05-15"
+                          latitude: 41.2974
+                          longitude: 2.0833
+                          active: true
         '400':
           description: Error al validar Id
           content:
@@ -249,6 +385,44 @@ paths:
                         - properties:
                             airport:
                               $ref: '#/components/schemas/airport'
+              examples:
+                example1:
+                  summary: Ejemplo de vuelo 1
+                  value:
+                    - flight:
+                        id: 23
+                        name: "Zaragoza/Menorca"
+                        departureDate: "2020-01-01"
+                        gate: 5
+                        duration: 5.5
+                        departure: false
+                        airport:
+                          id: 23
+                          name: "Aeropuerto de Zaragoza."
+                          city: "Zaragoza"
+                          foundationYear: "1965-10-05"
+                          latitude: 41.6669
+                          longitude: -1.0413
+                          active: true
+                example2:
+                  summary: Ejemplo de vuelo 2
+                  value:
+                    - flight:
+                        id: 24
+                        name: "Barcelona/Paris"
+                        departureDate: "2020-02-01"
+                        gate: 7
+                        duration: 4.5
+                        departure: true
+                        airport:
+                          id: 24
+                          name: "Aeropuerto de Barcelona."
+                          city: "Barcelona"
+                          foundationYear: "1970-05-15"
+                          latitude: 41.2974
+                          longitude: 2.0833
+                          active: true
+
         '400':
           description: Error al validar Id.
           content:
@@ -287,6 +461,12 @@ paths:
           application/json:
             schema:
               type: object
+              required:
+                - name
+                - departureDate
+                - gate
+                - departure
+                - airportId
               properties:
                 name:
                   type: string
@@ -310,10 +490,94 @@ paths:
                   type: boolean
                   example: false
                   description: Nos dice si despega o aterriza el vuelo.
-
+                airportId:
+                  type: number
+                  format: int32
+                  example: 2
+                  description: Id del aeropuerto asociado.
+            examples:
+              FullData:
+                summary: Ejemplo con todos los campos.
+                value:
+                  name: Zaragoza/Menorca
+                  departureDate: "2020-01-01"
+                  gate: 5
+                  duration: 5.5
+                  departure: false
+              MinimumData:
+                summary: Ejemplo con campos mínimos.
+                value:
+                  name: Barcelona/Paris
+                  departureDate: "2021-02-15"
+                  gate: 3
       responses:
         '201':
           description: El vuelo se ha editado correctamente.
+
+        '400':
+          description: Error de validación en los datos de entrada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Vuelo no encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+    # Parchear vuelos
+    patch:
+      tags:
+        - Vuelos
+      summary: Edita un campo concreto del vuelo.
+      description: A partir del Id de un vuelo se edita un campo concreto del mismo vuelo.
+      parameters:
+        - name: flightId
+          in: path
+          description: Id del vuelo necesario para editar.
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - field
+                - gate
+              properties:
+                field:
+                  type: string
+                  example: "gate"
+                  description: Nombre del campo que se cambia por defecto "gate".
+                gate:
+                  type: number
+                  format: int32
+                  example: 5
+                  description: Numero de la puerta de embarque.
+            examples:
+              Patch1:
+                summary: Ejemplo 1.
+                value:
+                  field: "gate"
+                  gate: 5
+              Patch2:
+                summary: Ejemplo 2.
+                value:
+                  field: "gate"
+                  gate: 10
+      responses:
+        '201':
+          description: El campo del vuelo se ha editado correctamente.
 
         '400':
           description: Error de validación en los datos de entrada.
@@ -388,6 +652,33 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/airport'
+
+              examples:
+                example1:
+                  summary: Ejemplo de aeropuerto 1
+                  value:
+                    - airport:
+                        id: 23
+                        name: "Aeropuerto de Zaragoza."
+                        city: "Zaragoza"
+                        foundationYear: "1965-10-05"
+                        latitude: 41.6669
+                        longitude: -1.0413
+                        active: true
+
+                example2:
+                  summary: Ejemplo de aeropuerto 2
+                  value:
+                    - airport:
+                        id: 42
+                        name: "Aeropuerto Internacional de Barcelona"
+                        city: "Barcelona"
+                        foundationYear: "1992-09-21"
+                        latitude: 41.2974
+                        longitude: 2.0833
+                        active: true
+
+
         '500':
           description: Internal Server Error
           content:
@@ -406,6 +697,12 @@ paths:
           application/json:
             schema:
               type: object
+              required:
+                - name
+                - city
+                - foundationYear
+                - latitude
+                - longitude
               properties:
                 name:
                   type: string
@@ -433,6 +730,22 @@ paths:
                   type: boolean
                   example: true
                   description: Nos indica si el aeropuerto está en activo o no.
+            examples:
+              FullData:
+                summary: Ejemplo con todos los campos.
+                value:
+                  name: "Aeropuerto Internacional de Barcelona"
+                  city: "Barcelona"
+                  foundationYear: "1992-09-21"
+                  latitude: 41.2974
+                  longitude: 2.0833
+                  active: true
+              MinimumData:
+                summary: Ejemplo con campos mínimos.
+                value:
+                  name: "Aeropuerto de Madrid-Barajas"
+                  city: "Madrid"
+                  foundationYear: "1931-04-22"
       responses:
         '201':
           description: El aeropuerto se ha registrado correctamente.
@@ -479,6 +792,7 @@ paths:
           schema:
             type: string
             format: date
+
       responses:
         '200':
           description: Devuelve el filtrado o la lista completa en su defecto.
@@ -488,6 +802,30 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/airport'
+              examples:
+                example1:
+                  summary: Ejemplo de aeropuerto 1
+                  value:
+                    - airport:
+                        id: 23
+                        name: "Aeropuerto de Zaragoza."
+                        city: "Zaragoza"
+                        foundationYear: "1965-10-05"
+                        latitude: 41.6669
+                        longitude: -1.0413
+                        active: true
+
+                example2:
+                  summary: Ejemplo de aeropuerto 2
+                  value:
+                    - airport:
+                        id: 42
+                        name: "Aeropuerto Internacional de Barcelona"
+                        city: "Barcelona"
+                        foundationYear: "1992-09-21"
+                        latitude: 41.2974
+                        longitude: 2.0833
+                        active: true
         '400':
           description: Error de validación en los datos de entrada.
           content:
@@ -525,6 +863,30 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/airport'
+              examples:
+                example1:
+                  summary: Ejemplo de aeropuerto 1
+                  value:
+                    - airport:
+                        id: 23
+                        name: "Aeropuerto de Zaragoza."
+                        city: "Zaragoza"
+                        foundationYear: "1965-10-05"
+                        latitude: 41.6669
+                        longitude: -1.0413
+                        active: true
+
+                example2:
+                  summary: Ejemplo de aeropuerto 2
+                  value:
+                    - airport:
+                        id: 42
+                        name: "Aeropuerto Internacional de Barcelona"
+                        city: "Barcelona"
+                        foundationYear: "1992-09-21"
+                        latitude: 41.2974
+                        longitude: 2.0833
+                        active: true
         '400':
           description: Error al validar Id.
           content:
@@ -563,6 +925,12 @@ paths:
           application/json:
             schema:
               type: object
+              required:
+                - name
+                - city
+                - foundationYear
+                - latitude
+                - longitude
               properties:
                 name:
                   type: string
@@ -590,10 +958,90 @@ paths:
                   type: boolean
                   example: true
                   description: Nos indica si el aeropuerto está en activo o no.
-
+            examples:
+              FullData:
+                summary: Ejemplo con todos los campos.
+                value:
+                  name: "Aeropuerto Internacional de Barcelona"
+                  city: "Barcelona"
+                  foundationYear: "1992-09-21"
+                  latitude: 41.2974
+                  longitude: 2.0833
+                  active: true
+              MinimumData:
+                summary: Ejemplo con campos mínimos.
+                value:
+                  name: "Aeropuerto de Madrid-Barajas"
+                  city: "Madrid"
+                  foundationYear: "1931-04-22"
       responses:
         '201':
           description: El aeropuerto se ha editado correctamente.
+
+        '400':
+          description: Error de validación en los datos de entrada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Aeropuerto no encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+    # Parchear aeropuertos
+    patch:
+      tags:
+        - Aeropuertos
+      summary: Edita un campo concreto del aeropuerto.
+      description: A partir del Id de un aeropuerto se edita un campo concreto del mismo aeropuerto.
+      parameters:
+        - name: airportId
+          in: path
+          description: Id del aeropuerto necesario para editar.
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - field
+                - name
+              properties:
+                field:
+                  type: string
+                  example: "gate"
+                  description: Nombre del campo que se cambia por defecto "name".
+                name:
+                  type: string
+                  example: 5
+                  description: Nombre del puerta aeropuerto.
+            examples:
+              Patch1:
+                summary: Ejemplo 1.
+                value:
+                  field: "name"
+                  name: "Aeropuerto Internacional de Barajas"
+              Patch2:
+                summary: Ejemplo 2.
+                value:
+                  field: "name"
+                  name: "Aeropuerto de Los Ángeles"
+      responses:
+        '201':
+          description: El campo del aeropuerto se ha editado correctamente.
 
         '400':
           description: Error de validación en los datos de entrada.
@@ -674,7 +1122,43 @@ paths:
                         - properties:
                             airline:
                               $ref: '#/components/schemas/airline'
-
+              examples:
+                example1:
+                  summary: Ejemplo de avión 1
+                  value:
+                    - airplanes:
+                        id: 1
+                        model: "Boeing 737"
+                        manufacturingDate: "2005-03-10"
+                        passengerCapacity: 180
+                        maxSpeed: 560.0
+                        active: true
+                        airline:
+                          id: 1
+                          name: "Iberia"
+                          telephone: 636756345
+                          foundationYear: "1999-10-25"
+                          fleet: 100
+                          onTime: 92.3
+                          active: true
+                example2:
+                  summary: Ejemplo de avión 2
+                  value:
+                    - airplanes:
+                        id: 2
+                        model: "Airbus A320"
+                        manufacturingDate: "2010-08-22"
+                        passengerCapacity: 150
+                        maxSpeed: 540.0
+                        active: true
+                        airline:
+                          id: 2
+                          name: "Air France"
+                          telephone: 987654321
+                          foundationYear: "1980-07-15"
+                          fleet: 80
+                          onTime: 88.5
+                          active: true
         '500':
           description: Internal Server Error
           content:
@@ -693,6 +1177,11 @@ paths:
           application/json:
             schema:
               type: object
+              required:
+                - model
+                - manufacturingDate
+                - passengerCapacity
+                - airlineId
               properties:
                 model:
                   type: string
@@ -716,6 +1205,29 @@ paths:
                   type: boolean
                   example: true
                   description: Nos indica si el avión está en activo o no.
+                airlineId:
+                  type: number
+                  format: int32
+                  example: 2
+                  description: Id de la aerolínea asociada.
+            examples:
+              FullData:
+                summary: Ejemplo con todos los campos.
+                value:
+                  model: "Boeing 737"
+                  manufacturingDate: "2005-03-10"
+                  passengerCapacity: 180
+                  maxSpeed: 560.0
+                  active: true
+                  airlineId: 1
+
+              MinimumData:
+                summary: Ejemplo con campos mínimos.
+                value:
+                  model: "Airbus A320"
+                  manufacturingDate: "2010-08-22"
+                  passengerCapacity: 150
+                  airlineId: 2
       responses:
         '201':
           description: El avión se ha registrado correctamente
@@ -785,6 +1297,43 @@ paths:
                         - properties:
                             airline:
                               $ref: '#/components/schemas/airline'
+              examples:
+                example1:
+                  summary: Ejemplo de avión 1
+                  value:
+                    - airplanes:
+                        id: 1
+                        model: "Boeing 737"
+                        manufacturingDate: "2005-03-10"
+                        passengerCapacity: 180
+                        maxSpeed: 560.0
+                        active: true
+                        airline:
+                          id: 1
+                          name: "Iberia"
+                          telephone: 636756345
+                          foundationYear: "1999-10-25"
+                          fleet: 100
+                          onTime: 92.3
+                          active: true
+                example2:
+                  summary: Ejemplo de avión 2
+                  value:
+                    - airplanes:
+                        id: 2
+                        model: "Airbus A320"
+                        manufacturingDate: "2010-08-22"
+                        passengerCapacity: 150
+                        maxSpeed: 540.0
+                        active: true
+                        airline:
+                          id: 2
+                          name: "Air France"
+                          telephone: 987654321
+                          foundationYear: "1980-07-15"
+                          fleet: 80
+                          onTime: 88.5
+                          active: true
         '400':
           description: Error de validación en los datos de entrada.
           content:
@@ -829,6 +1378,43 @@ paths:
                         - properties:
                             airline:
                               $ref: '#/components/schemas/airline'
+              examples:
+                example1:
+                  summary: Ejemplo de avión 1
+                  value:
+                    - airplanes:
+                        id: 1
+                        model: "Boeing 737"
+                        manufacturingDate: "2005-03-10"
+                        passengerCapacity: 180
+                        maxSpeed: 560.0
+                        active: true
+                        airline:
+                          id: 1
+                          name: "Iberia"
+                          telephone: 636756345
+                          foundationYear: "1999-10-25"
+                          fleet: 100
+                          onTime: 92.3
+                          active: true
+                example2:
+                  summary: Ejemplo de avión 2
+                  value:
+                    - airplanes:
+                        id: 2
+                        model: "Airbus A320"
+                        manufacturingDate: "2010-08-22"
+                        passengerCapacity: 150
+                        maxSpeed: 540.0
+                        active: true
+                        airline:
+                          id: 2
+                          name: "Air France"
+                          telephone: 987654321
+                          foundationYear: "1980-07-15"
+                          fleet: 80
+                          onTime: 88.5
+                          active: true
         '400':
           description: Error al validar Id.
           content:
@@ -880,6 +1466,43 @@ paths:
                         - properties:
                             airline:
                               $ref: '#/components/schemas/airline'
+              examples:
+                example1:
+                  summary: Ejemplo de avión 1
+                  value:
+                    - airplanes:
+                        id: 1
+                        model: "Boeing 737"
+                        manufacturingDate: "2005-03-10"
+                        passengerCapacity: 180
+                        maxSpeed: 560.0
+                        active: true
+                        airline:
+                          id: 1
+                          name: "Iberia"
+                          telephone: 636756345
+                          foundationYear: "1999-10-25"
+                          fleet: 100
+                          onTime: 92.3
+                          active: true
+                example2:
+                  summary: Ejemplo de avión 2
+                  value:
+                    - airplanes:
+                        id: 2
+                        model: "Airbus A320"
+                        manufacturingDate: "2010-08-22"
+                        passengerCapacity: 150
+                        maxSpeed: 540.0
+                        active: true
+                        airline:
+                          id: 2
+                          name: "Air France"
+                          telephone: 987654321
+                          foundationYear: "1980-07-15"
+                          fleet: 80
+                          onTime: 88.5
+                          active: true
         '400':
           description: Error al validar Id.
           content:
@@ -903,7 +1526,6 @@ paths:
 
 
     # Editar aviones
-
     put:
       tags:
         - Aviones
@@ -921,6 +1543,11 @@ paths:
           application/json:
             schema:
               type: object
+              required:
+                - model
+                - manufacturingDate
+                - passengerCapacity
+                - airlineId
               properties:
                 model:
                   type: string
@@ -944,10 +1571,97 @@ paths:
                   type: boolean
                   example: true
                   description: Nos indica si el avión está en activo o no.
+                airlineId:
+                  type: number
+                  format: int32
+                  example: 2
+                  description: Id de la aerolínea asociada.
+            examples:
+              FullData:
+                summary: Ejemplo con todos los campos.
+                value:
+                  model: "Boeing 737"
+                  manufacturingDate: "2005-03-10"
+                  passengerCapacity: 180
+                  maxSpeed: 560.0
+                  active: true
+                  airlineId: 1
+              MinimumData:
+                summary: Ejemplo con campos mínimos.
+                value:
+                  model: "Airbus A320"
+                  manufacturingDate: "2010-08-22"
+                  passengerCapacity: 150
+                  airlineId: 2
 
       responses:
         '201':
           description: El avión se ha editado correctamente.
+
+        '400':
+          description: Error de validación en los datos de entrada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Avión no encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+    # Parchear aviones
+    patch:
+      tags:
+        - Aviones
+      summary: Edita un campo concreto del avión.
+      description: A partir del Id de un avión se edita un campo concreto del mismo avión.
+      parameters:
+        - name: airplaneId
+          in: path
+          description: Id del avión necesario para editar.
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - field
+                - maxSpeed
+              properties:
+                field:
+                  type: string
+                  example: "maxSpeed"
+                  description: Nombre del campo que se cambia por defecto "maxSpeed".
+                maxSpeed:
+                  type: number
+                  format: float
+                  example: 560.0
+                  description: Velocidad del avión.
+            examples:
+              Patch1:
+                summary: Ejemplo 1.
+                value:
+                  field: "maxSpeed"
+                  maxSpeed: 560.0
+              Patch2:
+                summary: Ejemplo 2.
+                value:
+                  field: "maxSpeed"
+                  maxSpeed: 650.5
+      responses:
+        '201':
+          description: El campo del avión se ha editado correctamente.
 
         '400':
           description: Error de validación en los datos de entrada.
@@ -1022,6 +1736,30 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/airline'
+              examples:
+                example1:
+                  summary: Ejemplo de aerolínea 1
+                  value:
+                    - airline:
+                        id: 1
+                        name: "Iberia"
+                        telephone: 636756345
+                        foundationYear: "1999-10-25"
+                        fleet: 100
+                        onTime: 92.3
+                        active: true
+
+                example2:
+                  summary: Ejemplo de aerolínea 2
+                  value:
+                    - airline:
+                        id: 2
+                        name: "Air France"
+                        telephone: 987654321
+                        foundationYear: "1980-07-15"
+                        fleet: 80
+                        onTime: 88.5
+                        active: true
         '500':
           description: Internal Server Error
           content:
@@ -1040,6 +1778,11 @@ paths:
           application/json:
             schema:
               type: object
+              required:
+                - name
+                - telephone
+                - foundationYear
+                - fleet
               properties:
                 name:
                   type: string
@@ -1067,6 +1810,22 @@ paths:
                   type: boolean
                   example: true
                   description: Nos indica si la aerolínea está en activo o no.
+            examples:
+              FullData:
+                summary: Ejemplo con todos los campos.
+                value:
+                  name: "Iberia"
+                  telephone: 636756345
+                  foundationYear: "1999-10-25"
+                  fleet: 100
+                  onTime: 92.3
+                  active: true
+              MinimumData:
+                summary: Ejemplo con campos mínimos.
+                value:
+                  name: "Lufthansa"
+                  telephone: 999333444
+                  foundationYear: "1955-04-02"
       responses:
         '201':
           description: La aerolínea se ha registrado correctamente.
@@ -1123,6 +1882,30 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/airline'
+              examples:
+                example1:
+                  summary: Ejemplo de aerolínea 1
+                  value:
+                    - airline:
+                        id: 1
+                        name: "Iberia"
+                        telephone: 636756345
+                        foundationYear: "1999-10-25"
+                        fleet: 100
+                        onTime: 92.3
+                        active: true
+
+                example2:
+                  summary: Ejemplo de aerolínea 2
+                  value:
+                    - airline:
+                        id: 2
+                        name: "Air France"
+                        telephone: 987654321
+                        foundationYear: "1980-07-15"
+                        fleet: 80
+                        onTime: 88.5
+                        active: true
         '400':
           description: Error de validación en los datos de entrada
           content:
@@ -1160,6 +1943,30 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/airline'
+              examples:
+                example1:
+                  summary: Ejemplo de aerolínea 1
+                  value:
+                    - airline:
+                        id: 1
+                        name: "Iberia"
+                        telephone: 636756345
+                        foundationYear: "1999-10-25"
+                        fleet: 100
+                        onTime: 92.3
+                        active: true
+
+                example2:
+                  summary: Ejemplo de aerolínea 2
+                  value:
+                    - airline:
+                        id: 2
+                        name: "Air France"
+                        telephone: 987654321
+                        foundationYear: "1980-07-15"
+                        fleet: 80
+                        onTime: 88.5
+                        active: true
         '400':
           description: Error al validar Id.
           content:
@@ -1198,6 +2005,11 @@ paths:
           application/json:
             schema:
               type: object
+              required:
+                - name
+                - telephone
+                - foundationYear
+                - fleet
               properties:
                 name:
                   type: string
@@ -1225,7 +2037,22 @@ paths:
                   type: boolean
                   example: true
                   description: Nos indica si la aerolínea está en activo o no.
-
+            examples:
+              FullData:
+                summary: Ejemplo con todos los campos.
+                value:
+                  name: "Iberia"
+                  telephone: 636756345
+                  foundationYear: "1999-10-25"
+                  fleet: 100
+                  onTime: 92.3
+                  active: true
+              MinimumData:
+                summary: Ejemplo con campos mínimos.
+                value:
+                  name: "Lufthansa"
+                  telephone: 999333444
+                  foundationYear: "1955-04-02"
       responses:
         '201':
           description: La aerolínea se ha editado correctamente.
@@ -1238,6 +2065,72 @@ paths:
                 $ref: '#/components/schemas/BadRequest'
         '404':
           description: Aerolínea no encontrada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+    # Parchear aerolíneas
+    patch:
+      tags:
+        - Aerolíneas
+      summary: Edita un campo concreto de una aerolínea.
+      description: A partir del Id de una aerolíneas se edita un campo concreto del misma aerolínea.
+      parameters:
+        - name: airlineId
+          in: path
+          description: Id de la aerolínea necesario para editar.
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - field
+                - fleet
+              properties:
+                field:
+                  type: string
+                  example: "fleet"
+                  description: Nombre del campo que se cambia por defecto "fleet".
+                fleet:
+                  type: number
+                  format: int32
+                  example: 120
+                  description: Flota de la aerolínea.
+            examples:
+              Patch1:
+                summary: Ejemplo 1.
+                value:
+                  field: "fleet"
+                  fleet: 120
+              Patch2:
+                summary: Ejemplo 2.
+                value:
+                  field: "fleet"
+                  fleet: 90
+      responses:
+        '201':
+          description: El campo de la aerolínea se ha editado correctamente.
+
+        '400':
+          description: Error de validación en los datos de entrada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Aerolínea no encontrado.
           content:
             application/json:
               schema:
@@ -1310,6 +2203,45 @@ paths:
                         - properties:
                             airport:
                               $ref: '#/components/schemas/airport'
+              examples:
+                example1:
+                  summary: Ejemplo de tienda 1
+                  value:
+                    - airportStore:
+                        id: 1
+                        name: "Bar Pepe"
+                        type: "Restaurante"
+                        telephone: 973554603
+                        openingDay: "2005-12-10"
+                        averageProfit: 85.2
+                        open: true
+                        airport:
+                          id: 23
+                          name: "Aeropuerto de Zaragoza."
+                          city: "Zaragoza"
+                          foundationYear: "1965-10-05"
+                          latitude: 41.6669
+                          longitude: -1.0413
+                          active: true
+                example2:
+                  summary: Ejemplo de tienda 2
+                  value:
+                    - airportStore:
+                        id: 2
+                        name: "Tienda Express"
+                        type: "Kiosco"
+                        telephone: 123456789
+                        openingDay: "2010-05-22"
+                        averageProfit: 70.0
+                        open: false
+                        airport:
+                          id: 24
+                          name: "Aeropuerto de Barcelona."
+                          city: "Barcelona"
+                          foundationYear: "1970-05-15"
+                          latitude: 41.2974
+                          longitude: 2.0833
+                          active: true
         '500':
           description: Internal Server Error
           content:
@@ -1328,6 +2260,12 @@ paths:
           application/json:
             schema:
               type: object
+              required:
+                - name
+                - type
+                - averageProfit
+                - open
+                - airportId
               properties:
                 name:
                   type: string
@@ -1354,6 +2292,29 @@ paths:
                   type: boolean
                   example: true
                   description: Nos indica si la tienda está en activo o no.
+                airportId:
+                  type: number
+                  format: int32
+                  example: 2
+                  description: Id del aeropuerto asociado.
+            examples:
+              FullData:
+                summary: Ejemplo con todos los campos.
+                value:
+                  name: "Bar Pepe"
+                  type: "Restaurante"
+                  telephone: 973554603
+                  openingDay: "2005-12-10"
+                  averageProfit: 85.2
+                  open: true
+                  airportId: 23
+              MinimumData:
+                summary: Ejemplo con campos mínimos.
+                value:
+                  name: "Tienda Express"
+                  type: "Kiosco"
+                  telephone: 123456789
+                  airportId: 2
       responses:
         '201':
           description: La tienda se ha registrado correctamente.
@@ -1416,6 +2377,45 @@ paths:
                         - properties:
                             airport:
                               $ref: '#/components/schemas/airport'
+              examples:
+                example1:
+                  summary: Ejemplo de tienda 1
+                  value:
+                    - airportStore:
+                        id: 1
+                        name: "Bar Pepe"
+                        type: "Restaurante"
+                        telephone: 973554603
+                        openingDay: "2005-12-10"
+                        averageProfit: 85.2
+                        open: true
+                        airport:
+                          id: 23
+                          name: "Aeropuerto de Zaragoza."
+                          city: "Zaragoza"
+                          foundationYear: "1965-10-05"
+                          latitude: 41.6669
+                          longitude: -1.0413
+                          active: true
+                example2:
+                  summary: Ejemplo de tienda 2
+                  value:
+                    - airportStore:
+                        id: 2
+                        name: "Tienda Express"
+                        type: "Kiosco"
+                        telephone: 123456789
+                        openingDay: "2010-05-22"
+                        averageProfit: 70.0
+                        open: false
+                        airport:
+                          id: 24
+                          name: "Aeropuerto de Barcelona."
+                          city: "Barcelona"
+                          foundationYear: "1970-05-15"
+                          latitude: 41.2974
+                          longitude: 2.0833
+                          active: true
         '400':
           description: Error de validación en los datos de entrada.
           content:
@@ -1460,6 +2460,45 @@ paths:
                         - properties:
                             airport:
                               $ref: '#/components/schemas/airport'
+              examples:
+                example1:
+                  summary: Ejemplo de tienda 1
+                  value:
+                    - airportStore:
+                        id: 1
+                        name: "Bar Pepe"
+                        type: "Restaurante"
+                        telephone: 973554603
+                        openingDay: "2005-12-10"
+                        averageProfit: 85.2
+                        open: true
+                        airport:
+                          id: 23
+                          name: "Aeropuerto de Zaragoza."
+                          city: "Zaragoza"
+                          foundationYear: "1965-10-05"
+                          latitude: 41.6669
+                          longitude: -1.0413
+                          active: true
+                example2:
+                  summary: Ejemplo de tienda 2
+                  value:
+                    - airportStore:
+                        id: 2
+                        name: "Tienda Express"
+                        type: "Kiosco"
+                        telephone: 123456789
+                        openingDay: "2010-05-22"
+                        averageProfit: 70.0
+                        open: false
+                        airport:
+                          id: 24
+                          name: "Aeropuerto de Barcelona."
+                          city: "Barcelona"
+                          foundationYear: "1970-05-15"
+                          latitude: 41.2974
+                          longitude: 2.0833
+                          active: true
         '400':
           description: Error al validar Id.
           content:
@@ -1511,6 +2550,45 @@ paths:
                         - properties:
                             airport:
                               $ref: '#/components/schemas/airport'
+              examples:
+                example1:
+                  summary: Ejemplo de tienda 1
+                  value:
+                    - airportStore:
+                        id: 1
+                        name: "Bar Pepe"
+                        type: "Restaurante"
+                        telephone: 973554603
+                        openingDay: "2005-12-10"
+                        averageProfit: 85.2
+                        open: true
+                        airport:
+                          id: 23
+                          name: "Aeropuerto de Zaragoza."
+                          city: "Zaragoza"
+                          foundationYear: "1965-10-05"
+                          latitude: 41.6669
+                          longitude: -1.0413
+                          active: true
+                example2:
+                  summary: Ejemplo de tienda 2
+                  value:
+                    - airportStore:
+                        id: 2
+                        name: "Tienda Express"
+                        type: "Kiosco"
+                        telephone: 123456789
+                        openingDay: "2010-05-22"
+                        averageProfit: 70.0
+                        open: false
+                        airport:
+                          id: 24
+                          name: "Aeropuerto de Barcelona."
+                          city: "Barcelona"
+                          foundationYear: "1970-05-15"
+                          latitude: 41.2974
+                          longitude: 2.0833
+                          active: true
         '400':
           description: Error al validar Id.
           content:
@@ -1531,8 +2609,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalServerError'
 
-
-
     # Editar tiendas
     put:
       tags:
@@ -1551,6 +2627,12 @@ paths:
           application/json:
             schema:
               type: object
+              required:
+                - name
+                - type
+                - averageProfit
+                - open
+                - airportId
               properties:
                 name:
                   type: string
@@ -1577,7 +2659,30 @@ paths:
                   type: boolean
                   example: true
                   description: Nos indica si la tienda está en activo o no.
+                airportId:
+                  type: number
+                  format: int32
+                  example: 2
+                  description: Id del aeropuerto asociado.
 
+            examples:
+              FullData:
+                summary: Ejemplo con todos los campos.
+                value:
+                  name: "Bar Pepe"
+                  type: "Restaurante"
+                  telephone: 973554603
+                  openingDay: "2005-12-10"
+                  averageProfit: 85.2
+                  open: true
+                  airportId: 23
+              MinimumData:
+                summary: Ejemplo con campos mínimos.
+                value:
+                  name: "Tienda Express"
+                  type: "Kiosco"
+                  telephone: 123456789
+                  airportId: 2
       responses:
         '201':
           description: La tienda se ha editado correctamente.
@@ -1590,6 +2695,71 @@ paths:
                 $ref: '#/components/schemas/BadRequest'
         '404':
           description: Tienda no encontrada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+    # Parchear tiendas de aeropuerto
+    patch:
+      tags:
+        - Tiendas de aeropuerto
+      summary: Edita un campo concreto de una tienda.
+      description: A partir del Id de una tienda se edita un campo concreto del misma tienda.
+      parameters:
+        - name: airportStoreId
+          in: path
+          description: Id de la tienda necesario para editar.
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - field
+                - type
+              properties:
+                field:
+                  type: string
+                  example: "type"
+                  description: Nombre del campo que se cambia por defecto "type".
+                type:
+                  type: string
+                  example: "Consumibles"
+                  description: Tipo de tienda.
+            examples:
+              Patch1:
+                summary: Ejemplo 1.
+                value:
+                  field: "type"
+                  type: "Consumibles"
+              Patch2:
+                summary: Ejemplo 2.
+                value:
+                  field: "type"
+                  type: "Hostelería"
+      responses:
+        '201':
+          description: El campo de la tienda se ha editado correctamente.
+
+        '400':
+          description: Error de validación en los datos de entrada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Tienda no encontrado.
           content:
             application/json:
               schema:
@@ -1669,7 +2839,11 @@ components:
           type: boolean
           example: false
           description: Nos dice si despega o aterriza el vuelo.
-
+        airportId:
+          type: :number
+          format: int32
+          example: 2
+          description: Id del aeropuerto asociado.
 
 
     # Schemas airport
@@ -1737,6 +2911,11 @@ components:
           type: boolean
           example: true
           description: Nos indica si el avión está en activo o no.
+        airlineId:
+          type: :number
+          format: int32
+          example: 2
+          description: Id de la aerolínea asociada.
 
 
     # Schemas airline
@@ -1807,6 +2986,11 @@ components:
           type: boolean
           example: true
           description: Nos indica si la tienda está en activo o no.
+        airportId:
+          type: :number
+          format: int32
+          example: 2
+          description: Id del aeropuerto asociado.
 
 
 

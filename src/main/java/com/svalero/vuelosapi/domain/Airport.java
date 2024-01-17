@@ -30,8 +30,10 @@ public class Airport {
     @Column
     private LocalDate foundationYear;
     @Column
+    @NotNull
     private double latitude;
     @Column
+    @NotNull
     private double longitude;
     @Column
     private boolean active;

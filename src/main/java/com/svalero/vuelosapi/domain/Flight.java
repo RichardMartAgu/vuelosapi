@@ -33,6 +33,7 @@ public class Flight {
     @Positive
     private float duration;
     @Column
+    @NotNull(message = "Si el vuelo es salido o llegada es obligatorio")
     private boolean departure;
 
     @ManyToOne

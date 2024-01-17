@@ -34,6 +34,7 @@ public class AirportStore {
     @Column
     private LocalDate openingDay;
     @Column
+    @NotNull(message = "ESi la tienda esta abierta es obligatorio")
     private boolean open;
 
     @ManyToOne

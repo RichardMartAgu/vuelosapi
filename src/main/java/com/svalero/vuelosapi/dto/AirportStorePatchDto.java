@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AirportStorePatchDto {
-
     private String field;
     private String type;
 }
