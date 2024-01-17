@@ -1,8 +1,12 @@
 package com.svalero.vuelosapi.service;
 
+import com.svalero.vuelosapi.domain.Airline;
 import com.svalero.vuelosapi.domain.Airport;
 import com.svalero.vuelosapi.domain.Flight;
+import com.svalero.vuelosapi.dto.AirlinePatchDto;
 import com.svalero.vuelosapi.dto.FlightOutDto;
+import com.svalero.vuelosapi.dto.FlightPatchDto;
+import com.svalero.vuelosapi.exceptions.AirlineNotFoundException;
 import com.svalero.vuelosapi.exceptions.AirportNotFoundException;
 import com.svalero.vuelosapi.exceptions.FlightNotFoundException;
 import com.svalero.vuelosapi.repository.FlightRepository;
@@ -70,5 +74,12 @@ public class FlightService {
 
         }
 
+    }
+    public void patchFlight (long flightId, FlightPatchDto flightPatchDto) throws FlightNotFoundException {
+        Flight oldFlight = flightRepository.findById(flightId).orElseThrow(FlightNotFoundException::new);
+        if(flightPatchDto.getField().equals("gate")){
+            oldFlight.setGate(flightPatchDto.getGate());
+        }
+        flightRepository.save((oldFlight));
     }
 }

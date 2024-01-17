@@ -1,7 +1,10 @@
 package com.svalero.vuelosapi.service;
 
 import com.svalero.vuelosapi.domain.*;
+import com.svalero.vuelosapi.dto.AirlinePatchDto;
 import com.svalero.vuelosapi.dto.AirportStoreOutDto;
+import com.svalero.vuelosapi.dto.AirportStorePatchDto;
+import com.svalero.vuelosapi.exceptions.AirlineNotFoundException;
 import com.svalero.vuelosapi.exceptions.AirportNotFoundException;
 import com.svalero.vuelosapi.exceptions.AirportStoreNotFoundException;
 import com.svalero.vuelosapi.repository.AirportStoreRepository;
@@ -70,5 +73,12 @@ public class AirportStoreService {
 
         }
 
+    }
+    public void patchAirportStore (long airportStoreId, AirportStorePatchDto airportStorePatchDto) throws AirportStoreNotFoundException {
+        AirportStore oldAirportStore = airportStoreRepository.findById(airportStoreId).orElseThrow(AirportStoreNotFoundException::new);
+        if(airportStorePatchDto.getField().equals("type")){
+            oldAirportStore.setType(airportStorePatchDto.getType());
+        }
+        airportStoreRepository.save((oldAirportStore));
     }
 }

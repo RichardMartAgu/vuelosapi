@@ -2,7 +2,10 @@ package com.svalero.vuelosapi.controller;
 
 import com.svalero.vuelosapi.domain.ErrorResponse;
 import com.svalero.vuelosapi.domain.Flight;
+import com.svalero.vuelosapi.dto.AirlinePatchDto;
 import com.svalero.vuelosapi.dto.FlightOutDto;
+import com.svalero.vuelosapi.dto.FlightPatchDto;
+import com.svalero.vuelosapi.exceptions.AirlineNotFoundException;
 import com.svalero.vuelosapi.exceptions.AirportNotFoundException;
 import com.svalero.vuelosapi.exceptions.FlightNotFoundException;
 import com.svalero.vuelosapi.service.FlightService;
@@ -88,6 +91,12 @@ public class FlightController {
         flightService.modifyFlight(flight, flightId);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+    @PatchMapping(value = "/flight/{flightId}")
+    public ResponseEntity<Void> patchFlight(@PathVariable long flightId, @RequestBody FlightPatchDto flightPatchDto) throws FlightNotFoundException {
+        flightService.patchFlight(flightId, flightPatchDto);
+        return ResponseEntity.noContent().build();
+    }
+
 
     @ExceptionHandler(FlightNotFoundException.class)
     public ResponseEntity<ErrorResponse> flightNotFoundException(FlightNotFoundException pnfe) {

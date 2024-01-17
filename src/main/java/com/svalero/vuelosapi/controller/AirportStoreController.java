@@ -1,8 +1,10 @@
 package com.svalero.vuelosapi.controller;
 
 import com.svalero.vuelosapi.domain.AirportStore;
+import com.svalero.vuelosapi.dto.AirportPatchDto;
 import com.svalero.vuelosapi.dto.AirportStoreOutDto;
 import com.svalero.vuelosapi.domain.ErrorResponse;
+import com.svalero.vuelosapi.dto.AirportStorePatchDto;
 import com.svalero.vuelosapi.exceptions.AirportNotFoundException;
 import com.svalero.vuelosapi.exceptions.AirportStoreNotFoundException;
 import com.svalero.vuelosapi.service.AirportStoreService;
@@ -76,8 +78,9 @@ public class AirportStoreController {
         return new ResponseEntity<>(newAirportStore, HttpStatus.CREATED);
     }
 
+
     @DeleteMapping("/airportStore/{airportStoreId}")
-    public ResponseEntity<Void> daleteAirportStore(@PathVariable long airportStoreId) throws AirportStoreNotFoundException {
+    public ResponseEntity<Void> deleteAirportStore(@PathVariable long airportStoreId) throws AirportStoreNotFoundException {
         airportStoreService.removeAirportStore(airportStoreId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -87,6 +90,11 @@ public class AirportStoreController {
             throws AirportStoreNotFoundException {
         airportStoreService.modifyAirportStore(airportStore, airportStoreId);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+    @PatchMapping(value = "/airportStore/{airportStoreId}")
+    public ResponseEntity<Void> patchAirportStore(@PathVariable long airportStoreId, @RequestBody AirportStorePatchDto airportStorePatchDto) throws AirportStoreNotFoundException {
+        airportStoreService.patchAirportStore(airportStoreId, airportStorePatchDto);
+        return ResponseEntity.noContent().build();
     }
 
     @ExceptionHandler(AirportStoreNotFoundException.class)

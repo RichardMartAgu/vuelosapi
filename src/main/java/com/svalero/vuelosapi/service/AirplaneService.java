@@ -2,7 +2,9 @@ package com.svalero.vuelosapi.service;
 
 import com.svalero.vuelosapi.domain.Airline;
 import com.svalero.vuelosapi.domain.Airplane;
+import com.svalero.vuelosapi.dto.AirlinePatchDto;
 import com.svalero.vuelosapi.dto.AirplaneOutDto;
+import com.svalero.vuelosapi.dto.AirplanePatchDto;
 import com.svalero.vuelosapi.exceptions.AirlineNotFoundException;
 import com.svalero.vuelosapi.exceptions.AirplaneNotFoundException;
 import com.svalero.vuelosapi.repository.AirplaneRepository;
@@ -69,5 +71,12 @@ public class AirplaneService {
 
         }
 
+    }
+    public void patchAirplane (long airplaneId, AirplanePatchDto airplanePatchDto) throws AirplaneNotFoundException {
+        Airplane oldAirplane = airplaneRepository.findById(airplaneId).orElseThrow(AirplaneNotFoundException::new);
+        if(airplanePatchDto.getField().equals("maxSpeed")){
+            oldAirplane.setMaxSpeed(airplanePatchDto.getMaxSpeed());
+        }
+        airplaneRepository.save((oldAirplane));
     }
 }

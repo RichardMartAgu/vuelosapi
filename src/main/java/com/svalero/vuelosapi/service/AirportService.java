@@ -1,6 +1,10 @@
 package com.svalero.vuelosapi.service;
 
+import com.svalero.vuelosapi.domain.Airline;
 import com.svalero.vuelosapi.domain.Airport;
+import com.svalero.vuelosapi.dto.AirlinePatchDto;
+import com.svalero.vuelosapi.dto.AirportPatchDto;
+import com.svalero.vuelosapi.exceptions.AirlineNotFoundException;
 import com.svalero.vuelosapi.exceptions.AirportNotFoundException;
 import com.svalero.vuelosapi.repository.AirportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,5 +55,12 @@ public class AirportService {
 
         }
 
+    }
+    public void patchAirport (long airportId, AirportPatchDto airportPatchDto) throws AirportNotFoundException {
+        Airport oldAirport = airportRepository.findById(airportId).orElseThrow(AirportNotFoundException::new);
+        if(airportPatchDto.getField().equals("name")){
+            oldAirport.setName(airportPatchDto.getName());
+        }
+        airportRepository.save((oldAirport));
     }
 }

@@ -1,8 +1,10 @@
 package com.svalero.vuelosapi.controller;
 
 import com.svalero.vuelosapi.domain.Airplane;
+import com.svalero.vuelosapi.dto.AirlinePatchDto;
 import com.svalero.vuelosapi.dto.AirplaneOutDto;
 import com.svalero.vuelosapi.domain.ErrorResponse;
+import com.svalero.vuelosapi.dto.AirplanePatchDto;
 import com.svalero.vuelosapi.exceptions.AirlineNotFoundException;
 import com.svalero.vuelosapi.exceptions.AirplaneNotFoundException;
 import com.svalero.vuelosapi.service.AirlineService;
@@ -79,6 +81,7 @@ public class AirplaneController {
         return new ResponseEntity<>(newAirplane, HttpStatus.CREATED);
     }
 
+
     @DeleteMapping("/airplane/{airplaneId}")
     public ResponseEntity<Void> deleteAirplane(@PathVariable long airplaneId) throws AirplaneNotFoundException {
         airplaneService.removeAirplane(airplaneId);
@@ -89,6 +92,11 @@ public class AirplaneController {
     public ResponseEntity<Void> modifyAirplane(@Valid @RequestBody Airplane airplane, @PathVariable long airplaneId) throws AirplaneNotFoundException {
         airplaneService.modifyAirplane(airplane, airplaneId);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+    @PatchMapping(value = "/airplane/{airplaneId}")
+    public ResponseEntity<Void> patchAirplane(@PathVariable long airplaneId, @RequestBody AirplanePatchDto airplanePatchDto) throws AirplaneNotFoundException {
+        airplaneService.patchAirplane(airplaneId, airplanePatchDto);
+        return ResponseEntity.noContent().build();
     }
 
     @ExceptionHandler(AirplaneNotFoundException.class)

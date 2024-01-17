@@ -2,6 +2,9 @@ package com.svalero.vuelosapi.controller;
 
 import com.svalero.vuelosapi.domain.Airport;
 import com.svalero.vuelosapi.domain.ErrorResponse;
+import com.svalero.vuelosapi.dto.AirplanePatchDto;
+import com.svalero.vuelosapi.dto.AirportPatchDto;
+import com.svalero.vuelosapi.exceptions.AirplaneNotFoundException;
 import com.svalero.vuelosapi.exceptions.AirportNotFoundException;
 import com.svalero.vuelosapi.service.AirportService;
 import jakarta.validation.Valid;
@@ -63,6 +66,7 @@ public class AirportController {
         return new ResponseEntity<>(newAirport, HttpStatus.CREATED);
     }
 
+
     @DeleteMapping("/airport/{airportId}")
     public ResponseEntity<Void> deleteAirport(@PathVariable long airportId) throws AirportNotFoundException {
         airportService.removeAirport(airportId);
@@ -73,6 +77,11 @@ public class AirportController {
     public ResponseEntity<Void> modifyAirport(@Valid @RequestBody Airport airport, @PathVariable long airportId) throws AirportNotFoundException {
         airportService.modifyAirport(airport, airportId);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+    @PatchMapping(value = "/airport/{airportId}")
+    public ResponseEntity<Void> patchAirport(@PathVariable long airportId, @RequestBody AirportPatchDto airportPatchDto) throws AirportNotFoundException {
+        airportService.patchAirport(airportId, airportPatchDto);
+        return ResponseEntity.noContent().build();
     }
 
     @ExceptionHandler(AirportNotFoundException.class)
