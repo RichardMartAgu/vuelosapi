@@ -49,16 +49,16 @@ public class AirlineController {
                     .filter(airline -> airline.getFleet() == fleet)
                     .collect(Collectors.toList());
         }
-        logger.info("end GET /airline . List size: {}", airlinesList.size());
+        logger.info("end GET /airlines . List size: {}", airlinesList.size());
         return new ResponseEntity<>(airlinesList, HttpStatus.OK);
     }
 
     @GetMapping("/airline/{airlineId}")
     public ResponseEntity<Airline> getAirline(@PathVariable long airlineId) throws AirlineNotFoundException {
-        logger.info("ini GET/products/" + airlineId );
+        logger.info("ini GET/airline/" + airlineId );
         Optional<Airline> optionalAirline = airlineService.findById(airlineId);
         Airline airline = optionalAirline.orElseThrow(() -> new AirlineNotFoundException(airlineId));
-        logger.info("end GET/products/" + airlineId );
+        logger.info("end GET/airline/" + airlineId );
         return new ResponseEntity<>(airline, HttpStatus.OK);
     }
 
@@ -97,14 +97,14 @@ public class AirlineController {
 
     @ExceptionHandler(AirlineNotFoundException.class)
     public ResponseEntity<ErrorResponse> airlineNotFoundException(AirlineNotFoundException pnfe) {
-        logger.error("Object not found. Details: {}", pnfe.getMessage());
+        logger.error("Airline not found. Details: {}", pnfe.getMessage());
         ErrorResponse errorResponse = ErrorResponse.generalError(404, pnfe.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleException(MethodArgumentNotValidException manve) {
-        logger.error("Validation Exception. Details: {}", manve.getMessage());
+        logger.error("Airline validation Exception. Details: {}", manve.getMessage());
         Map<String, String> errors = new HashMap<>();
         manve.getBindingResult().getAllErrors().forEach(error -> {
             String fieldName = ((FieldError) error).getField();
