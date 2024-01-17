@@ -43,17 +43,17 @@ public class AirplaneController {
 
         if (!model.isEmpty()) {
             airplaneList = airplaneList.stream()
-                    .filter(airport -> airport.getModel().contains(model))
+                    .filter(airplane -> airplane.getModel().contains(model))
                     .collect(Collectors.toList());
         }
         if (passengerCapacity > 0) {
             airplaneList = airplaneList.stream()
-                    .filter(airport -> airport.getPassengerCapacity() == passengerCapacity)
+                    .filter(airplane -> airplane.getPassengerCapacity() == passengerCapacity)
                     .collect(Collectors.toList());
         }
         if (manufacturingDate != null) {
             airplaneList = airplaneList.stream()
-                    .filter(flight -> flight.getManufacturingDate().isEqual(manufacturingDate))
+                    .filter(airplane -> airplane.getManufacturingDate().isEqual(manufacturingDate))
                     .collect(Collectors.toList());
         }
         logger.info("end GET /airplanes . List size: {}", airplaneList.size());
