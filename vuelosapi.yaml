@@ -2805,6 +2805,1088 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalServerError'
 
+  #------------------------------------------------------------------------
+  #Control de pasajeros
+  #Listar pasajeros
+
+  /passenger:
+    get:
+      tags:
+        - Pasajeros
+      summary: Devuelve listado de todos los pasajeros.
+      description: Esta operación permite la consulta de todos los pasajeros existentes.
+      responses:
+        '200':
+          description: Devuelve la lista completa de pasajeros.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/passenger'
+
+              examples:
+                example1:
+                  summary: Ejemplo de pasajeros 1
+                  value:
+                    - airport:
+                        id: 23
+                        name: "Juan"
+                        surname: "Martinez"
+                        dni: "123456789D"
+                        birthday: "1990-01-01"
+                        age: 32
+
+                example2:
+                  summary: Ejemplo de pasajeros 2
+                  value:
+                    - airport:
+                        id: 42
+                        name: "Anna"
+                        surname: "Simón"
+                        dni: "987654321X"
+                        birthday: "1985-05-12"
+                        age: 37
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+    #  Crear Pasajeros
+
+    post:
+      tags:
+        - Pasajeros
+      summary: Crea un nuevo pasajero.
+      description: Añadiendo los campos adecuados podemos crear un pasajero nuevo.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - surname
+                - dni
+              properties:
+                name:
+                  type: string
+                  example: Juan
+                  description: El nombre del pasajero.
+                surname:
+                  type: string
+                  example: Martinez
+                  description: El apellido del pasajero.
+                dni:
+                  type: string
+                  example: 123456789D
+                  description: Número de DNI del pasajero.
+                birthday:
+                  type: string
+                  example: 1990-01-01
+                  description: Fecha de nacimiento del pasajero.
+                age:
+                  type: integer
+                  example: 32
+                  description: Edad del pasajero.
+            examples:
+              FullData:
+                summary: Ejemplo con todos los campos.
+                value:
+                  name: "Juan"
+                  surname: "Martinez"
+                  dni: "123456789D"
+                  birthday: "1990-01-01"
+                  age: 32
+              MinimumData:
+                summary: Ejemplo con campos mínimos.
+                value:
+                  name: "Anna"
+                  surname: "Simón"
+                  dni: "987654321X"
+      responses:
+        '201':
+          description: El pasajero se ha registrado correctamente.
+
+        '400':
+          description: Error de validación en los datos de entrada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+  #Buscar pasajeros por nombre, apellido y/o dni
+
+  /passenger/findByName,surname and/or dni:
+    get:
+      tags:
+        - Pasajeros
+      summary: Devuelve listado de pasajeros por filtrado.
+      description: Esta operación permite la consulta de todos los pasajeros mediante un filtrado de 3 campos.
+      parameters:
+        - name: name
+          in: query
+          description: Nombre del pasajero.
+          required: false
+          schema:
+            type: string
+        - name: surname
+          in: query
+          description: Apellido del pasajero.
+          required: false
+          schema:
+            type: string
+        - name: dni
+          in: query
+          description: Número de DNI del pasajero.
+          required: false
+          schema:
+            type: string
+
+      responses:
+        '200':
+          description: Devuelve el filtrado o la lista completa en su defecto.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/passenger'
+              examples:
+                example1:
+                  summary: Ejemplo de pasajero 1
+                  value:
+                    - passenger:
+                        id: 1
+                        name: "Juan"
+                        surname: "Martinez"
+                        dni: "123456789D"
+                        birthday: "1990-01-01"
+                        age: 32
+
+                example2:
+                  summary: Ejemplo de pasajero 2
+                  value:
+                    - passenger:
+                        id: 2
+                        name: "Anna"
+                        surname: "Simón"
+                        dni: "987654321X"
+                        birthday: "1985-05-12"
+                        age: 37
+        '400':
+          description: Error de validación en los datos de entrada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+  # Buscar pasajeros por Id
+
+  /passenger/{passengerId}:
+    get:
+      tags:
+        - Pasajeros
+      summary: Busca pasajeros por Id.
+      description: A partir de una Id se puede encontrar los datos de un pasajeros.
+      parameters:
+        - name: pasajerosId
+          in: path
+          description: Id del pasajeros necesario para buscar.
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Devuelve un pasajeros correctamente.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/passenger'
+              examples:
+                example1:
+                  summary: Ejemplo de pasajero 1
+                  value:
+                    - passenger:
+                        id: 1
+                        name: "Juan"
+                        surname: "Martinez"
+                        dni: "123456789D"
+                        birthday: "1990-01-01"
+                        age: 32
+
+                example2:
+                  summary: Ejemplo de pasajero 2
+                  value:
+                    - passenger:
+                        id: 2
+                        name: "Anna"
+                        surname: "Simón"
+                        dni: "987654321X"
+                        birthday: "1985-05-12"
+                        age: 37
+        '400':
+          description: Error al validar Id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Pasajeros no encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+    # Editar pasajeros
+    put:
+      tags:
+        - Pasajeros
+      summary: Edita un pasajeros.
+      description: A partir del Id de un pasajeros se edita el mismo pasajeros añadiendo los campos adecuados.
+      parameters:
+        - name: pasajerosId
+          in: path
+          description: Id del pasajeros necesario para editar.
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+                - surname
+                - dni
+              properties:
+                name:
+                  type: string
+                  example: Juan
+                  description: El nombre del pasajero.
+                surname:
+                  type: string
+                  example: Martinez
+                  description: El apellido del pasajero.
+                dni:
+                  type: string
+                  example: 123456789D
+                  description: Número de DNI del pasajero.
+                birthday:
+                  type: string
+                  example: 1990-01-01
+                  description: Fecha de nacimiento del pasajero.
+                age:
+                  type: integer
+                  example: 32
+                  description: Edad del pasajero.
+            examples:
+              FullData:
+                summary: Ejemplo con todos los campos.
+                value:
+                  name: "Juan"
+                  surname: "Martinez"
+                  dni: "123456789D"
+                  birthday: "1990-01-01"
+                  age: 32
+              MinimumData:
+                summary: Ejemplo con campos mínimos.
+                value:
+                  name: "Anna"
+                  surname: "Simón"
+                  dni: "987654321X"
+      responses:
+        '201':
+          description: El pasajero se ha editado correctamente.
+
+        '400':
+          description: Error de validación en los datos de entrada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Pasajero no encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+    # Parchear aeropuertos
+    patch:
+      tags:
+        - Pasajeros
+      summary: Edita un campo concreto del pasajero.
+      description: A partir del Id de un pasajero se edita un campo concreto del mismo pasajero.
+      parameters:
+        - name: pasajeroId
+          in: path
+          description: Id del pasajero necesario para editar.
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - field
+                - name
+              properties:
+                field:
+                  type: string
+                  example: "name"
+                  description: Nombre del campo que se cambia por defecto "name".
+                name:
+                  type: string
+                  example: 5
+                  description: Nombre del pasajero.
+            examples:
+              Patch1:
+                summary: Ejemplo 1.
+                value:
+                  field: "name"
+                  name: "Jose"
+              Patch2:
+                summary: Ejemplo 2.
+                value:
+                  field: "name"
+                  name: "Luis"
+      responses:
+        '201':
+          description: El campo del pasajero se ha editado correctamente.
+
+        '400':
+          description: Error de validación en los datos de entrada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Pasajero no encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+    #Eliminar pasajeros
+
+    delete:
+      tags:
+        - Pasajeros
+      summary: Elimina un pasajero.
+      description: A partir del Id de un pasajero se borra el mismo pasajero.
+      parameters:
+        - name: pasajeroId
+          in: path
+          description: Id del pasajero necesario para borrar.
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        '204':
+          description: El pasajero se ha borrado correctamente.
+
+        '400':
+          description: Error al validar Id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  #---------------------------------------------------------------
+
+  #Control de tickets
+  #Listar tickets
+
+  /ticket:
+    get:
+      tags:
+        - Tickets
+      summary: Devuelve listado de todo los tickets.
+      description: Esta operación permite la consulta de todos los tickets existentes.
+      responses:
+        '200':
+          description: Devuelve la lista completa de tickets.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    airportStore:
+                      allOf:
+                        - $ref: '#/components/schemas/ticket'
+                        - properties:
+                            airport:
+                              $ref: '#/components/schemas/ticket'
+              examples:
+                example1:
+                  summary: Ejemplo de ticket 1
+                  value:
+                    - ticket:
+                        id: 1
+                        seatNumber: "A12"
+                        issuing: "2024-01-18"
+                        baggage: 2
+                        premium: true
+                        passengerId: 3
+                        flightId: 6
+
+                example2:
+                  summary: Ejemplo de ticket 2
+                  value:
+                    - ticket:
+                        id: 5
+                        seatNumber: "B32"
+                        issuing: "2024-02-19"
+                        baggage: 4
+                        premium: false
+                        passengerId: 5
+                        flightId: 2
+
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+    #  Crear ticket
+    post:
+      tags:
+        - Tickets
+      summary: Crea un nuevo ticket .
+      description: Añadiendo los campos adecuados podemos crear un ticket nuevo.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - seatNumber
+                - issuing
+                - baggage
+                - passengerId
+                - flightId
+              properties:
+                seatNumber:
+                  type: string
+                  example: A12
+                  description: El nombre del asiento.
+                issuing:
+                  type: string
+                  example: 2024-01-18
+                  description: Fecha de expedición del ticket.
+                baggage:
+                  type: integer
+                  example: 2
+                  description: Número de equipaje total permitido.
+                openingDay:
+                  type: string
+                  example: 1999-10-25
+                  description: Fecha de inauguración de la tienda.
+                premium:
+                  type: boolean
+                  example: true
+                  description: Nos indica si el vuelo es premium o no.
+                passengerId:
+                  type: number
+                  format: int32
+                  example: 2
+                  description: Id del pasajero asociado.
+                flightId:
+                  type: number
+                  format: int32
+                  example: 4
+                  description: Id del vuelo asociado.
+            examples:
+              FullData:
+                summary: Ejemplo con todos los campos.
+                value:
+                  seatNumber: "A12"
+                  issuing: "2024-01-18"
+                  baggage: 2
+                  openingDay: "2005-12-10"
+                  premium: true
+                  passengerId: 2
+                  flightId: 23
+              MinimumData:
+                summary: Ejemplo con campos mínimos.
+                value:
+                  seatNumber: B17
+                  issuing: "2024-02-19"
+                  passengerId: 2
+                  flightId: 43
+      responses:
+        '201':
+          description: El ticket se ha registrado correctamente.
+
+        '400':
+          description: Error de validación en los datos de entrada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+  #Buscar tickets por nombre del asiento, la fecha de expedición y/o número de equipage.
+
+  /ticket/findBySeatNumber,issuing and/or baggage:
+    get:
+      tags:
+        - Tickets
+      summary: Devuelve listado de tickets por filtrado.
+      description: Esta operación permite la consulta de todos los tickets mediante un filtrado de 3 campos.
+      parameters:
+        - name: seatNumber
+          in: query
+          description: Nombre del asiento.
+          required: false
+          schema:
+            type: string
+        - name: issuing
+          in: query
+          description: Fecha de expedición.
+          required: false
+          schema:
+            type: string
+        - name: baggage
+          in: query
+          description: Número de maletas.
+          required: false
+          schema:
+            type: integer
+
+      responses:
+        '200':
+          description: Devuelve el filtrado o la lista completa en su defecto.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    airportStore:
+                      allOf:
+                        - $ref: '#/components/schemas/ticket'
+                        - properties:
+                            airport:
+                              $ref: '#/components/schemas/ticket'
+              examples:
+                example1:
+                  summary: Ejemplo de ticket 1
+                  value:
+                    - ticket:
+                        id: 1
+                        seatNumber: "A12"
+                        issuing: "2024-01-18"
+                        baggage: 2
+                        premium: true
+                        passengerId: 3
+                        flightId: 6
+
+                example2:
+                  summary: Ejemplo de ticket 2
+                  value:
+                    - ticket:
+                        id: 5
+                        seatNumber: "B32"
+                        issuing: "2024-02-19"
+                        baggage: 4
+                        premium: false
+                        passengerId: 5
+                        flightId: 2
+
+        '400':
+          description: Error de validación en los datos de entrada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+  # Busca tickets asociados a un aeropuerto
+
+  /passenger/{passengerId}/ticket:
+    get:
+      tags:
+        - Tickets
+      summary: Busca ticket asociados a un pasajero
+      description: A partir del Id de un pasajero se puede encontrar los tickets asociados.
+      parameters:
+        - name: passengerId
+          in: path
+          description: Id del pasajero necesario para buscar.
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Devuelve una lista de tickets correctamente.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    airportStore:
+                      allOf:
+                        - $ref: '#/components/schemas/ticket'
+                        - properties:
+                            airport:
+                              $ref: '#/components/schemas/ticket'
+              examples:
+                example1:
+                  summary: Ejemplo de ticket 1
+                  value:
+                    - ticket:
+                        id: 1
+                        seatNumber: "A12"
+                        issuing: "2024-01-18"
+                        baggage: 2
+                        premium: true
+                        passengerId: 3
+                        flightId: 6
+
+                example2:
+                  summary: Ejemplo de ticket 2
+                  value:
+                    - ticket:
+                        id: 5
+                        seatNumber: "B32"
+                        issuing: "2024-02-19"
+                        baggage: 4
+                        premium: false
+                        passengerId: 5
+                        flightId: 2
+        '400':
+          description: Error al validar Id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Pasajero no encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+  # Busca tickets asociados a un aeropuerto
+
+  /flight/{flightId}/ticket:
+    get:
+      tags:
+        - Tickets
+      summary: Busca ticket asociados a un vuelo
+      description: A partir del Id de un vuelo se puede encontrar los tickets asociados.
+      parameters:
+        - name: flightId
+          in: path
+          description: Id del vuelo necesario para buscar.
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Devuelve una lista de tickets correctamente.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    airportStore:
+                      allOf:
+                        - $ref: '#/components/schemas/ticket'
+                        - properties:
+                            airport:
+                              $ref: '#/components/schemas/ticket'
+              examples:
+                example1:
+                  summary: Ejemplo de ticket 1
+                  value:
+                    - ticket:
+                        id: 1
+                        seatNumber: "A12"
+                        issuing: "2024-01-18"
+                        baggage: 2
+                        premium: true
+                        passengerId: 3
+                        flightId: 6
+
+                example2:
+                  summary: Ejemplo de ticket 2
+                  value:
+                    - ticket:
+                        id: 5
+                        seatNumber: "B32"
+                        issuing: "2024-02-19"
+                        baggage: 4
+                        premium: false
+                        passengerId: 5
+                        flightId: 2
+        '400':
+          description: Error al validar Id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Pasajero no encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+  # Buscar ticket por Id
+
+  /ticket/{ticketId}:
+    get:
+      tags:
+        - Tickets
+      summary: Busca ticket por Id.
+      description: A partir de un Id se puede encontrar los datos de un ticket.
+      parameters:
+        - name: ticketId
+          in: path
+          description: Id del ticket necesario para buscar.
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Devuelve un ticket correctamente.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    airportStore:
+                      allOf:
+                        - $ref: '#/components/schemas/ticket'
+                        - properties:
+                            airport:
+                              $ref: '#/components/schemas/ticket'
+              examples:
+                example1:
+                  summary: Ejemplo de ticket 1
+                  value:
+                    - ticket:
+                        id: 1
+                        seatNumber: "A12"
+                        issuing: "2024-01-18"
+                        baggage: 2
+                        premium: true
+                        passengerId: 3
+                        flightId: 6
+
+                example2:
+                  summary: Ejemplo de ticket 2
+                  value:
+                    - ticket:
+                        id: 5
+                        seatNumber: "B32"
+                        issuing: "2024-02-19"
+                        baggage: 4
+                        premium: false
+                        passengerId: 5
+                        flightId: 2
+        '400':
+          description: Error al validar Id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Ticket no encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+    # Editar ticket
+    put:
+      tags:
+        - Tickets
+      summary: Edita una ticket
+      description: A partir del Id de un ticket se edita el mismo ticket añadiendo los campos adecuados.
+      parameters:
+        - name: ticketId
+          in: path
+          description: Id del ticket necesario para editar.
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - seatNumber
+                - issuing
+                - baggage
+                - passengerId
+                - flightId
+              properties:
+                seatNumber:
+                  type: string
+                  example: A12
+                  description: El nombre del asiento.
+                issuing:
+                  type: string
+                  example: 2024-01-18
+                  description: Fecha de expedición del ticket.
+                baggage:
+                  type: integer
+                  example: 2
+                  description: Número de equipaje total permitido.
+                openingDay:
+                  type: string
+                  example: 1999-10-25
+                  description: Fecha de inauguración de la tienda.
+                premium:
+                  type: boolean
+                  example: true
+                  description: Nos indica si el vuelo es premium o no.
+                passengerId:
+                  type: number
+                  format: int32
+                  example: 2
+                  description: Id del pasajero asociado.
+                flightId:
+                  type: number
+                  format: int32
+                  example: 4
+                  description: Id del vuelo asociado.
+            examples:
+              FullData:
+                summary: Ejemplo con todos los campos.
+                value:
+                  seatNumber: "A12"
+                  issuing: "2024-01-18"
+                  baggage: 2
+                  openingDay: "2005-12-10"
+                  premium: true
+                  passengerId: 2
+                  flightId: 23
+              MinimumData:
+                summary: Ejemplo con campos mínimos.
+                value:
+                  seatNumber: B17
+                  issuing: "2024-02-19"
+                  passengerId: 2
+                  flightId: 43
+      responses:
+        '201':
+          description: EL ticket se ha editado correctamente.
+
+        '400':
+          description: Error de validación en los datos de entrada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Ticket no encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+    # Parchear ticket
+    patch:
+      tags:
+        - Tickets
+      summary: Edita un campo concreto de un ticket.
+      description: A partir del Id de un ticket se edita un campo concreto del mismo ticket.
+      parameters:
+        - name: ticketId
+          in: path
+          description: Id del ticket necesario para editar.
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - field
+                - seatNumber
+              properties:
+                field:
+                  type: string
+                  example: "seatNumber"
+                  description: Nombre del campo que se cambia por defecto "seatNumber".
+                seatNumber:
+                  type: string
+                  example: "B34"
+                  description: Nombre del asiento.
+            examples:
+              Patch1:
+                summary: Ejemplo 1.
+                value:
+                  field: "seatNumber"
+                  seatNumber: "C12"
+              Patch2:
+                summary: Ejemplo 2.
+                value:
+                  field: "seatNumber"
+                  seatNumber: "A4"
+      responses:
+        '201':
+          description: El campo del ticket se ha editado correctamente.
+
+        '400':
+          description: Error de validación en los datos de entrada.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+        '404':
+          description: Ticket no encontrado.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFound'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
+    #Eliminar Tickets
+
+    delete:
+      tags:
+        - Tickets
+      summary: Elimina una ticket.
+      description: A partir del Id de un ticket se borra el mismo ticket.
+      parameters:
+        - name: ticketId
+          in: path
+          description: Id del ticket necesario para borrar.
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        '204':
+          description: El ticket se ha borrado correctamente.
+
+        '400':
+          description: Error al validar Id.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BadRequest'
+
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/InternalServerError'
+
 
 
 components:
@@ -2991,6 +4073,72 @@ components:
           format: int32
           example: 2
           description: Id del aeropuerto asociado.
+
+    # Schemas passenger
+    passenger:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+          format: int64
+        name:
+          type: string
+          example: "Juan"
+          description: Nombre del pasajero.
+        surname:
+          type: string
+          example: "Martinez"
+          description: Apellido del pasajero.
+        dni:
+          type: string
+          example: "1234567890"
+          description: Número de DNI del pasajero.
+        birthday:
+          type: string
+          example: "1990-01-01"
+          description: Fecha de nacimiento del pasajero.
+        age:
+          type: integer
+          example: 32
+          description: Edad del pasajero.
+
+
+    # Schemas ticket
+    ticket:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+          format: int64
+        seatNumber:
+          type: string
+          example: A12
+          description: El nombre del asiento.
+        issuing:
+          type: string
+          example: "2024-01-18"
+          description: Fecha de expedición del boleto.
+        baggage:
+          type: integer
+          example: 2
+          description: Número de equipaje total permitido.
+        premium:
+          type: boolean
+          example: true
+          description: Indica si el ticket es premium o no.
+        passenger:
+          type: :number
+          format: int32
+          example: 4
+          description: Id del pasajero asociado.
+        flight:
+          type: :number
+          format: int32
+          example: 2
+          description: Id del vuelo asociado.
+
 
 
 

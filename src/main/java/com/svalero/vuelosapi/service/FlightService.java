@@ -70,15 +70,15 @@ public class FlightService {
         logger.info("Ini modifyFlight ID: " + flightId);
         Optional<Flight> flight = flightRepository.findById(flightId);
         if (flight.isPresent()) {
-            Flight existingFligh = flight.get();
-            existingFligh.setName(newflight.getName());
-            existingFligh.setDepartureDate(newflight.getDepartureDate());
-            existingFligh.setGate(newflight.getGate());
-            existingFligh.setDuration(newflight.getDuration());
-            existingFligh.setDeparture(newflight.isDeparture());
-            existingFligh.setAirport(newflight.getAirport());
+            Flight existingFlight = flight.get();
+            existingFlight.setName(newflight.getName());
+            existingFlight.setDepartureDate(newflight.getDepartureDate());
+            existingFlight.setGate(newflight.getGate());
+            existingFlight.setDuration(newflight.getDuration());
+            existingFlight.setDeparture(newflight.isDeparture());
+            existingFlight.setAirport(newflight.getAirport());
 
-            flightRepository.save(existingFligh);
+            flightRepository.save(existingFlight);
         } else {
             throw new FlightNotFoundException(flightId);
         }

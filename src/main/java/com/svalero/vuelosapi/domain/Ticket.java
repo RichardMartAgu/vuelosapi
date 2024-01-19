@@ -23,7 +23,6 @@ public class Ticket {
     @Column
     private String seatNumber;
     @NotNull(message = "La fecha de expedición es obligatorio")
-
     @Column
     private LocalDate issuing;
     @NotNull(message = "Numero de equipaje total obligatorio")

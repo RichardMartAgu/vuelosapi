@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -37,8 +38,8 @@ public class Passenger {
     @Column
     private int age;
 
-
-    @OneToMany(mappedBy = "ticket")
+    @ToString.Exclude
+    @OneToMany(mappedBy = "passenger")
     @JsonIgnore
     private List<Ticket> tickets;
 }

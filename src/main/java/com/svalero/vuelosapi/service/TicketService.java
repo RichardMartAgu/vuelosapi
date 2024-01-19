@@ -4,7 +4,9 @@ import com.svalero.vuelosapi.controller.TicketController;
 import com.svalero.vuelosapi.domain.Flight;
 import com.svalero.vuelosapi.domain.Passenger;
 import com.svalero.vuelosapi.domain.Ticket;
+import com.svalero.vuelosapi.dto.TicketFlightOutDto;
 import com.svalero.vuelosapi.dto.TicketOutDto;
+import com.svalero.vuelosapi.dto.TicketPassengerOutDto;
 import com.svalero.vuelosapi.dto.TicketPatchDto;
 import com.svalero.vuelosapi.exceptions.TicketNotFoundException;
 import com.svalero.vuelosapi.repository.TicketRepository;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TicketService {
@@ -40,26 +43,33 @@ public class TicketService {
         return ticketRepository.findById(id);
     }
 
-    public List<Ticket> findTicketByPassengerId(long pasangerId) throws TicketNotFoundException {
+    public List<TicketPassengerOutDto> findTicketByPassenger(long pasangerId) throws TicketNotFoundException {
         logger.info("Ini findTicketByPassengerId " + pasangerId);
         Optional<Passenger> passengerOptional = passengerService.findById(pasangerId);
         if (passengerOptional.isPresent()) {
             logger.info("End findTicketByPassengerId " + pasangerId);
-            return ticketRepository.findTicketByPassengerId(passengerOptional);
+            List<Ticket> newTickets = ticketRepository.findTicketByPassenger(Optional.of(passengerOptional.get()));
+            return newTickets.stream()
+                    .map(ticket -> modelMapper.map(ticket, TicketPassengerOutDto.class))
+                    .collect(Collectors.toList());
         } else {
             throw new TicketNotFoundException();
         }
     }
-    public List<Ticket> findTicketByFlightId(long flightId) throws TicketNotFoundException {
+    public List<TicketFlightOutDto> findTicketByFlight(long flightId) throws TicketNotFoundException {
         logger.info("Ini findTicketByFlightId " + flightId);
         Optional<Flight> flightOptional = flightService.findById(flightId);
         if (flightOptional.isPresent()) {
             logger.info("End findTicketByFlightId " + flightId);
-            return ticketRepository.findTicketByFlightId(flightOptional);
+            List<Ticket> newTickets = ticketRepository.findTicketByFlight(Optional.of(flightOptional.get()));
+            return newTickets.stream()
+                    .map(ticket -> modelMapper.map(ticket, TicketFlightOutDto.class))
+                    .collect(Collectors.toList());
         } else {
             throw new TicketNotFoundException();
         }
     }
+
 
     public TicketOutDto saveTicket(Ticket ticket) {
         logger.info("Ini saveTicket " + ticket);

@@ -6,6 +6,7 @@ import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -38,11 +39,11 @@ public class Airport {
     @Column
     private boolean active;
 
-
+    @ToString.Exclude
     @OneToMany(mappedBy = "airport")
     @JsonIgnore
     private List<AirportStore> airportStores;
-
+    @ToString.Exclude
     @OneToMany(mappedBy = "airport")
     @JsonIgnore
     private List<Flight> flights;

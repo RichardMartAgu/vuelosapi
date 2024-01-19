@@ -42,7 +42,7 @@ public class Flight {
     @NotNull(message = "El Id del aeropuerto asociado es obligatorio")
     @JoinColumn(name = "airport_id")
     private Airport airport;
-    @OneToMany(mappedBy = "ticket")
+    @OneToMany(mappedBy = "flight")
     @JsonIgnore
     private List<Ticket> tickets;
 

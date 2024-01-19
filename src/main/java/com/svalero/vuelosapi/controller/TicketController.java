@@ -2,7 +2,9 @@ package com.svalero.vuelosapi.controller;
 
 import com.svalero.vuelosapi.domain.ErrorResponse;
 import com.svalero.vuelosapi.domain.Ticket;
+import com.svalero.vuelosapi.dto.TicketFlightOutDto;
 import com.svalero.vuelosapi.dto.TicketOutDto;
+import com.svalero.vuelosapi.dto.TicketPassengerOutDto;
 import com.svalero.vuelosapi.dto.TicketPatchDto;
 import com.svalero.vuelosapi.exceptions.TicketNotFoundException;
 import com.svalero.vuelosapi.service.PassengerService;
@@ -70,10 +72,10 @@ public class TicketController {
     }
 
     @GetMapping("/passenger/{passengerId}/tickets")
-    public ResponseEntity<List<Ticket>> getTicketByPassengerId(@PathVariable long passengerId) {
+    public ResponseEntity<List<TicketPassengerOutDto>> getTicketByPassenger(@PathVariable long passengerId) {
         logger.info("ini GET/passenger/ " + passengerId + "/tickets");
         try {
-            List<Ticket> tickets = ticketService.findTicketByPassengerId(passengerId);
+            List<TicketPassengerOutDto> tickets = ticketService.findTicketByPassenger(passengerId);
             return new ResponseEntity<>(tickets, HttpStatus.OK);
         } catch (TicketNotFoundException e) {
             logger.warn("TicketNotFoundException ID: " + passengerId);
@@ -84,10 +86,10 @@ public class TicketController {
         }
     }
     @GetMapping("/flight/{flightId}/tickets")
-    public ResponseEntity<List<Ticket>> getTicketByFlightId(@PathVariable long flightId) {
+    public ResponseEntity<List<TicketFlightOutDto>> getTicketByFlight(@PathVariable long flightId) {
         logger.info("ini GET/flight/ " + flightId + "/tickets");
         try {
-            List<Ticket> tickets = ticketService.findTicketByPassengerId(flightId);
+            List<TicketFlightOutDto> tickets = ticketService.findTicketByFlight(flightId);
             return new ResponseEntity<>(tickets, HttpStatus.OK);
         } catch (TicketNotFoundException e) {
             logger.warn("TicketNotFoundException ID: " + flightId);

@@ -2,6 +2,7 @@ package com.svalero.vuelosapi.controller;
 
 import com.svalero.vuelosapi.domain.Airline;
 import com.svalero.vuelosapi.domain.ErrorResponse;
+import com.svalero.vuelosapi.dto.AirlineDto;
 import com.svalero.vuelosapi.dto.AirlinePatchDto;
 import com.svalero.vuelosapi.exceptions.AirlineNotFoundException;
 import com.svalero.vuelosapi.service.AirlineService;
@@ -80,9 +81,9 @@ public class AirlineController {
     }
 
     @PutMapping("/airline/{airlineId}")
-    public ResponseEntity<Void> modifyAirline(@Valid @RequestBody Airline airline, @PathVariable long airlineId) throws AirlineNotFoundException {
+    public ResponseEntity<Void> modifyAirline(@Valid @RequestBody AirlineDto airlineDto, @PathVariable long airlineId) throws AirlineNotFoundException {
         logger.info("ini PUT /airline/" + airlineId );
-        airlineService.modifyAirline(airline, airlineId);
+        airlineService.modifyAirline(airlineDto, airlineId);
         logger.info("end PUT /airline/" + airlineId );
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

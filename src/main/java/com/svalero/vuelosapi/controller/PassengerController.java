@@ -25,8 +25,8 @@ public class PassengerController {
     private PassengerService passengerService;
     private Logger logger = LoggerFactory.getLogger(com.svalero.vuelosapi.controller.PassengerController.class);
 
-    @GetMapping("/passenger")
-    public ResponseEntity<List<Passenger>> getAll(@Valid @RequestParam(defaultValue = "") String name, @RequestParam(defaultValue = "0") String surname, @RequestParam(defaultValue = "0") String dni) {
+    @GetMapping("/passengers")
+    public ResponseEntity<List<Passenger>> getAll(@Valid @RequestParam(defaultValue = "") String name, @RequestParam(defaultValue = "") String surname, @RequestParam(defaultValue = "") String dni) {
         logger.info("ini GET /passenger by parameters: name={}, surname={}, dni={}", name, surname, dni);
 
         List<Passenger> passengerList = passengerService.findAll();

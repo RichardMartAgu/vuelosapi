@@ -1,11 +1,13 @@
 package com.svalero.vuelosapi.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -39,7 +41,7 @@ public class Airline {
     private float onTime;
     @Column
     private boolean active;
-
+    @ToString.Exclude
     @OneToMany(mappedBy = "airline")
     @JsonIgnore
     private List<Airplane> airplanes;

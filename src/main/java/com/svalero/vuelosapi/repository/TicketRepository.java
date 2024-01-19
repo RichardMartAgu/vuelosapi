@@ -10,6 +10,6 @@ import java.util.Optional;
 @Repository
 public interface TicketRepository extends CrudRepository<Ticket, Long> {
     List<Ticket> findAll();
-    List<Ticket> findTicketByPassengerId(Optional<Passenger> passenger);
-    List<Ticket> findTicketByFlightId(Optional<Flight> flight);
+    List<Ticket> findTicketByPassenger(Optional<Passenger> passenger);
+    List<Ticket> findTicketByFlight(Optional<Flight> flight);
 }

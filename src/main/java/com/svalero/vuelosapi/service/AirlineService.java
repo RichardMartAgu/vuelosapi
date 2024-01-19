@@ -2,11 +2,14 @@ package com.svalero.vuelosapi.service;
 
 import com.svalero.vuelosapi.controller.AirlineController;
 import com.svalero.vuelosapi.domain.Airline;
+import com.svalero.vuelosapi.domain.Airplane;
+import com.svalero.vuelosapi.dto.AirlineDto;
 import com.svalero.vuelosapi.dto.AirlinePatchDto;
 import com.svalero.vuelosapi.exceptions.AirlineNotFoundException;
 import com.svalero.vuelosapi.repository.AirlineRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,22 +50,24 @@ public class AirlineService {
         airlineRepository.delete(airline);
     }
 
-    public void modifyAirline(Airline newAirline, long airlineId) throws AirlineNotFoundException {
+    public void modifyAirline(AirlineDto newAirlineDTO, long airlineId) throws AirlineNotFoundException {
         logger.info("Ini modifyAirline ID: " + airlineId);
-        Optional<Airline> airline = airlineRepository.findById(airlineId);
-        if (airline.isPresent()) {
-            Airline existingAirline = airline.get();
-            existingAirline.setName(newAirline.getName());
-            existingAirline.setTelephone(newAirline.getTelephone());
-            existingAirline.setFoundationYear(newAirline.getFoundationYear());
-            existingAirline.setFleet(newAirline.getFleet());
-            existingAirline.setOnTime(newAirline.getOnTime());
-            existingAirline.setActive(newAirline.isActive());
+        Optional<Airline> airlineOptional  = airlineRepository.findById(airlineId);
+        if (airlineOptional .isPresent()) {
+            Airline existingAirline = airlineOptional.get();
+            existingAirline.setName(newAirlineDTO.getName());
+            existingAirline.setTelephone(newAirlineDTO.getTelephone());
+            existingAirline.setFoundationYear(newAirlineDTO.getFoundationYear());
+            existingAirline.setFleet(newAirlineDTO.getFleet());
+            existingAirline.setOnTime(newAirlineDTO.getOnTime());
+            existingAirline.setActive(newAirlineDTO.isActive());
+
+            BeanUtils.copyProperties(newAirlineDTO, existingAirline);
             airlineRepository.save(existingAirline);
         } else {
             throw new AirlineNotFoundException(airlineId);
         }
-        logger.info("End modifyAirline Airline: " + airline);
+        logger.info("End modifyAirline Airline: " + airlineOptional);
     }
 
     public void patchAirline(long airlineId, AirlinePatchDto airlinePatchDto) throws AirlineNotFoundException {
