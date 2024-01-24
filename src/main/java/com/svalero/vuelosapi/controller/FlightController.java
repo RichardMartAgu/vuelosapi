@@ -102,7 +102,7 @@ public class FlightController {
         logger.info("ini PUT /flight/" + flightId );
         flightService.modifyFlight(flight, flightId);
         logger.info("end PUT /flight/" + flightId );
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PatchMapping(value = "/flight/{flightId}")

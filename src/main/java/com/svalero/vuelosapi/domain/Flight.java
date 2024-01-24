@@ -6,6 +6,7 @@ import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -42,6 +43,7 @@ public class Flight {
     @NotNull(message = "El Id del aeropuerto asociado es obligatorio")
     @JoinColumn(name = "airport_id")
     private Airport airport;
+    @ToString.Exclude
     @OneToMany(mappedBy = "flight")
     @JsonIgnore
     private List<Ticket> tickets;

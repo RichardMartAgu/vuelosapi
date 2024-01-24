@@ -33,14 +33,19 @@ public class TicketService {
     private ModelMapper modelMapper;
     private Logger logger = LoggerFactory.getLogger(TicketController.class);
 
-    public List<Ticket> findAll() {
+    public List<TicketOutDto> findAll() {
         logger.info("Do Ticket findAll");
-        return ticketRepository.findAll();
+        List<Ticket> airlines = ticketRepository.findAll();
+        return airlines.stream()
+                .map(airline -> modelMapper.map(airline, TicketOutDto.class))
+                .collect(Collectors.toList());
     }
 
-    public Optional<Ticket> findById(long id) {
+
+    public Optional<TicketOutDto> findById(long id) {
         logger.info("Do Ticket findById " + id);
-        return ticketRepository.findById(id);
+        Optional<Ticket> ticketOptional = ticketRepository.findById(id);
+        return ticketOptional.map(ticket -> modelMapper.map(ticket, TicketOutDto.class));
     }
 
     public List<TicketPassengerOutDto> findTicketByPassenger(long pasangerId) throws TicketNotFoundException {
@@ -56,6 +61,7 @@ public class TicketService {
             throw new TicketNotFoundException();
         }
     }
+
     public List<TicketFlightOutDto> findTicketByFlight(long flightId) throws TicketNotFoundException {
         logger.info("Ini findTicketByFlightId " + flightId);
         Optional<Flight> flightOptional = flightService.findById(flightId);

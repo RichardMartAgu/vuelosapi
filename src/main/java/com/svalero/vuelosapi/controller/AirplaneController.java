@@ -18,7 +18,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -106,7 +105,7 @@ public class AirplaneController {
         logger.info("ini PUT /airplane/" + airplaneId );
         airplaneService.modifyAirplane(airplane, airplaneId);
         logger.info("end PUT /airplane/" + airplaneId );
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
     @PatchMapping(value = "/airplane/{airplaneId}")
     public ResponseEntity<Void> patchAirplane(@PathVariable long airplaneId, @RequestBody AirplanePatchDto airplanePatchDto) throws AirplaneNotFoundException {

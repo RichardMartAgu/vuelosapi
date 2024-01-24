@@ -29,16 +29,25 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    flight:
-                      allOf:
-                        - $ref: '#/components/schemas/flight'
-                        - properties:
-                            airport:
-                              $ref: '#/components/schemas/airport'
+                properties:
+                  flight:
+                    type: object
+                    properties:
+                      id: # Propiedades del vuelo
+                        type: integer
+                      name:
+                        type: string
+                      departureDate:
+                        type: string
+                        format: date
+                      gate:
+                        type: integer
+                      duration:
+                        type: number
+                      departure:
+                        type: boolean
+                      airport:
+                        $ref: '#/components/schemas/airport'
               examples:
                 example1:
                   summary: Ejemplo de vuelo 1
@@ -199,16 +208,25 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    flight:
-                      allOf:
-                        - $ref: '#/components/schemas/flight'
-                        - properties:
-                            airport:
-                              $ref: '#/components/schemas/airport'
+                properties:
+                  flight:
+                    type: object
+                    properties:
+                      id: # Propiedades del vuelo
+                        type: integer
+                      name:
+                        type: string
+                      departureDate:
+                        type: string
+                        format: date
+                      gate:
+                        type: integer
+                      duration:
+                        type: number
+                      departure:
+                        type: boolean
+                      airport:
+                        $ref: '#/components/schemas/airport'
               examples:
                 example1:
                   summary: Ejemplo de vuelo 1
@@ -287,16 +305,25 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    flight:
-                      allOf:
-                        - $ref: '#/components/schemas/flight'
-                        - properties:
-                            airport:
-                              $ref: '#/components/schemas/airport'
+                properties:
+                  flight:
+                    type: object
+                    properties:
+                      id: # Propiedades del vuelo
+                        type: integer
+                      name:
+                        type: string
+                      departureDate:
+                        type: string
+                        format: date
+                      gate:
+                        type: integer
+                      duration:
+                        type: number
+                      departure:
+                        type: boolean
+                      airport:
+                        $ref: '#/components/schemas/airport'
               examples:
                 example1:
                   summary: Ejemplo de vuelo 1
@@ -375,53 +402,62 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    flight:
-                      allOf:
-                        - $ref: '#/components/schemas/flight'
-                        - properties:
-                            airport:
-                              $ref: '#/components/schemas/airport'
+                properties:
+                  flight:
+                    type: object
+                    properties:
+                      id: # Propiedades del vuelo
+                        type: integer
+                      name:
+                        type: string
+                      departureDate:
+                        type: string
+                        format: date
+                      gate:
+                        type: integer
+                      duration:
+                        type: number
+                      departure:
+                        type: boolean
+                      airport:
+                        $ref: '#/components/schemas/airport'
               examples:
                 example1:
                   summary: Ejemplo de vuelo 1
                   value:
-                    - flight:
+                    flight:
+                      id: 23
+                      name: "Zaragoza/Menorca"
+                      departureDate: "2020-01-01"
+                      gate: 5
+                      duration: 5.5
+                      departure: false
+                      airport:
                         id: 23
-                        name: "Zaragoza/Menorca"
-                        departureDate: "2020-01-01"
-                        gate: 5
-                        duration: 5.5
-                        departure: false
-                        airport:
-                          id: 23
-                          name: "Aeropuerto de Zaragoza."
-                          city: "Zaragoza"
-                          foundationYear: "1965-10-05"
-                          latitude: 41.6669
-                          longitude: -1.0413
-                          active: true
+                        name: "Aeropuerto de Zaragoza."
+                        city: "Zaragoza"
+                        foundationYear: "1965-10-05"
+                        latitude: 41.6669
+                        longitude: -1.0413
+                        active: true
                 example2:
                   summary: Ejemplo de vuelo 2
                   value:
-                    - flight:
+                    flight:
+                      id: 24
+                      name: "Barcelona/Paris"
+                      departureDate: "2020-02-01"
+                      gate: 7
+                      duration: 4.5
+                      departure: true
+                      airport:
                         id: 24
-                        name: "Barcelona/Paris"
-                        departureDate: "2020-02-01"
-                        gate: 7
-                        duration: 4.5
-                        departure: true
-                        airport:
-                          id: 24
-                          name: "Aeropuerto de Barcelona."
-                          city: "Barcelona"
-                          foundationYear: "1970-05-15"
-                          latitude: 41.2974
-                          longitude: 2.0833
-                          active: true
+                        name: "Aeropuerto de Barcelona."
+                        city: "Barcelona"
+                        foundationYear: "1970-05-15"
+                        latitude: 41.2974
+                        longitude: 2.0833
+                        active: true
 
         '400':
           description: Error al validar Id.
@@ -511,8 +547,12 @@ paths:
                   departureDate: "2021-02-15"
                   gate: 3
       responses:
-        '201':
+        '204':
           description: El vuelo se ha editado correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContent'
 
         '400':
           description: Error de validación en los datos de entrada.
@@ -576,8 +616,12 @@ paths:
                   field: "gate"
                   gate: 10
       responses:
-        '201':
-          description: El campo del vuelo se ha editado correctamente.
+        '204':
+          description: El vuelo se ha editado correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContent'
 
         '400':
           description: Error de validación en los datos de entrada.
@@ -617,6 +661,10 @@ paths:
       responses:
         '204':
           description: El vuelo se ha borrado correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContent'
 
         '400':
           description: Error al validar Id.
@@ -649,10 +697,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/airport'
-
+                $ref: '#/components/schemas/airport'
               examples:
                 example1:
                   summary: Ejemplo de aeropuerto 1
@@ -799,8 +844,6 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
                   $ref: '#/components/schemas/airport'
               examples:
                 example1:
@@ -860,8 +903,6 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
                   $ref: '#/components/schemas/airport'
               examples:
                 example1:
@@ -975,8 +1016,12 @@ paths:
                   city: "Madrid"
                   foundationYear: "1931-04-22"
       responses:
-        '201':
-          description: El aeropuerto se ha editado correctamente.
+        '204':
+          description: El Aeropuerto se ha editado correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContent'
 
         '400':
           description: Error de validación en los datos de entrada.
@@ -1040,8 +1085,12 @@ paths:
                   field: "name"
                   name: "Aeropuerto de Los Ángeles"
       responses:
-        '201':
-          description: El campo del aeropuerto se ha editado correctamente.
+        '204':
+          description: El Aeropuerto se ha editado correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContent'
 
         '400':
           description: Error de validación en los datos de entrada.
@@ -1080,7 +1129,11 @@ paths:
 
       responses:
         '204':
-          description: El aeropuerto se ha borrado correctamente.
+          description: El Aeropuerto se ha borrado correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContent'
 
         '400':
           description: Error al validar Id.
@@ -1112,16 +1165,26 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    airplane:
-                      allOf:
-                        - $ref: '#/components/schemas/airplane'
-                        - properties:
-                            airline:
-                              $ref: '#/components/schemas/airline'
+                type: object
+                properties:
+                  airplane:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      model:
+                        type: string
+                      manufacturingDate:
+                        type: string
+                        format: date
+                      passengerCapacity:
+                        type: number
+                      maxSpeed:
+                        type: number
+                      active:
+                        type: boolean
+                      airline:
+                        $ref: '#/components/schemas/airline'
               examples:
                 example1:
                   summary: Ejemplo de avión 1
@@ -1287,16 +1350,26 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    airplane:
-                      allOf:
-                        - $ref: '#/components/schemas/airplane'
-                        - properties:
-                            airline:
-                              $ref: '#/components/schemas/airline'
+                type: object
+                properties:
+                  airplane:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      model:
+                        type: string
+                      manufacturingDate:
+                        type: string
+                        format: date
+                      passengerCapacity:
+                        type: number
+                      maxSpeed:
+                        type: number
+                      active:
+                        type: boolean
+                      airline:
+                        $ref: '#/components/schemas/airline'
               examples:
                 example1:
                   summary: Ejemplo de avión 1
@@ -1368,16 +1441,26 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    airplane:
-                      allOf:
-                        - $ref: '#/components/schemas/airplane'
-                        - properties:
-                            airline:
-                              $ref: '#/components/schemas/airline'
+                type: object
+                properties:
+                  airplane:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      model:
+                        type: string
+                      manufacturingDate:
+                        type: string
+                        format: date
+                      passengerCapacity:
+                        type: number
+                      maxSpeed:
+                        type: number
+                      active:
+                        type: boolean
+                      airline:
+                        $ref: '#/components/schemas/airline'
               examples:
                 example1:
                   summary: Ejemplo de avión 1
@@ -1456,16 +1539,26 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    airplane:
-                      allOf:
-                        - $ref: '#/components/schemas/airplane'
-                        - properties:
-                            airline:
-                              $ref: '#/components/schemas/airline'
+                type: object
+                properties:
+                  airplane:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      model:
+                        type: string
+                      manufacturingDate:
+                        type: string
+                        format: date
+                      passengerCapacity:
+                        type: number
+                      maxSpeed:
+                        type: number
+                      active:
+                        type: boolean
+                      airline:
+                        $ref: '#/components/schemas/airline'
               examples:
                 example1:
                   summary: Ejemplo de avión 1
@@ -1522,9 +1615,6 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerError'
-
-
-
     # Editar aviones
     put:
       tags:
@@ -1595,8 +1685,12 @@ paths:
                   airlineId: 2
 
       responses:
-        '201':
-          description: El avión se ha editado correctamente.
+        '204':
+          description: El Avión se ha editado correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContent'
 
         '400':
           description: Error de validación en los datos de entrada.
@@ -1660,8 +1754,12 @@ paths:
                   field: "maxSpeed"
                   maxSpeed: 650.5
       responses:
-        '201':
-          description: El campo del avión se ha editado correctamente.
+        '204':
+          description: El Avión se ha editado correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContent'
 
         '400':
           description: Error de validación en los datos de entrada.
@@ -1700,7 +1798,11 @@ paths:
 
       responses:
         '204':
-          description: El avión se ha borrado correctamente.
+          description: El Avión se ha eliminado correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContent'
 
         '400':
           description: Error al validar Id.
@@ -1733,8 +1835,6 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
                   $ref: '#/components/schemas/airline'
               examples:
                 example1:
@@ -1879,8 +1979,6 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
                   $ref: '#/components/schemas/airline'
               examples:
                 example1:
@@ -1940,8 +2038,6 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
                   $ref: '#/components/schemas/airline'
               examples:
                 example1:
@@ -2054,8 +2150,12 @@ paths:
                   telephone: 999333444
                   foundationYear: "1955-04-02"
       responses:
-        '201':
-          description: La aerolínea se ha editado correctamente.
+        '204':
+          description: La Aerolínea se ha editado correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContent'
 
         '400':
           description: Error de validación en los datos de entrada.
@@ -2120,8 +2220,12 @@ paths:
                   field: "fleet"
                   fleet: 90
       responses:
-        '201':
-          description: El campo de la aerolínea se ha editado correctamente.
+        '204':
+          description: La Aerolínea se ha editado correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContent'
 
         '400':
           description: Error de validación en los datos de entrada.
@@ -2160,7 +2264,11 @@ paths:
 
       responses:
         '204':
-          description: La aerolínea se ha borrado correctamente.
+          description: La Aerolínea se ha eliminado correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContent'
 
         '400':
           description: Error al validar Id.
@@ -2193,16 +2301,27 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    airportStore:
-                      allOf:
-                        - $ref: '#/components/schemas/airportStore'
-                        - properties:
-                            airport:
-                              $ref: '#/components/schemas/airport'
+                type: object
+                properties:
+                  airportStore:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      name:
+                        type: string
+                      type:
+                        type: string
+                      telephone:
+                        type: number
+                      openingDay:
+                        type: string
+                        format: date
+                      averageProfit:
+                        type: number
+                        format: double
+                      airport:
+                        $ref: '#/components/schemas/airport'
               examples:
                 example1:
                   summary: Ejemplo de tienda 1
@@ -2359,7 +2478,8 @@ paths:
           description: Porcentaje de la media de beneficios de la tienda.
           required: false
           schema:
-            type: float
+            type: number
+
 
       responses:
         '200':
@@ -2367,16 +2487,27 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    airportStore:
-                      allOf:
-                        - $ref: '#/components/schemas/airportStore'
-                        - properties:
-                            airport:
-                              $ref: '#/components/schemas/airport'
+                type: object
+                properties:
+                  airportStore:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      name:
+                        type: string
+                      type:
+                        type: string
+                      telephone:
+                        type: number
+                      openingDay:
+                        type: string
+                        format: date
+                      averageProfit:
+                        type: number
+                        format: double
+                      airport:
+                        $ref: '#/components/schemas/airport'
               examples:
                 example1:
                   summary: Ejemplo de tienda 1
@@ -2450,16 +2581,27 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    airportStore:
-                      allOf:
-                        - $ref: '#/components/schemas/airportStore'
-                        - properties:
-                            airport:
-                              $ref: '#/components/schemas/airport'
+                type: object
+                properties:
+                  airportStore:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      name:
+                        type: string
+                      type:
+                        type: string
+                      telephone:
+                        type: number
+                      openingDay:
+                        type: string
+                        format: date
+                      averageProfit:
+                        type: number
+                        format: double
+                      airport:
+                        $ref: '#/components/schemas/airport'
               examples:
                 example1:
                   summary: Ejemplo de tienda 1
@@ -2540,16 +2682,27 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    airportStore:
-                      allOf:
-                        - $ref: '#/components/schemas/airportStore'
-                        - properties:
-                            airport:
-                              $ref: '#/components/schemas/airport'
+                type: object
+                properties:
+                  airportStore:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      name:
+                        type: string
+                      type:
+                        type: string
+                      telephone:
+                        type: number
+                      openingDay:
+                        type: string
+                        format: date
+                      averageProfit:
+                        type: number
+                        format: double
+                      airport:
+                        $ref: '#/components/schemas/airport'
               examples:
                 example1:
                   summary: Ejemplo de tienda 1
@@ -2684,8 +2837,12 @@ paths:
                   telephone: 123456789
                   airportId: 2
       responses:
-        '201':
-          description: La tienda se ha editado correctamente.
+        '204':
+          description: La Tienda se ha editado correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContent'
 
         '400':
           description: Error de validación en los datos de entrada.
@@ -2749,8 +2906,12 @@ paths:
                   field: "type"
                   type: "Hostelería"
       responses:
-        '201':
-          description: El campo de la tienda se ha editado correctamente.
+        '204':
+          description: La Tienda se ha editado correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContent'
 
         '400':
           description: Error de validación en los datos de entrada.
@@ -2789,7 +2950,11 @@ paths:
 
       responses:
         '204':
-          description: La tienda se ha borrado correctamente.
+          description: La Tienda se ha borrado correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContent'
 
         '400':
           description: Error al validar Id.
@@ -2821,26 +2986,22 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
                   $ref: '#/components/schemas/passenger'
-
               examples:
                 example1:
                   summary: Ejemplo de pasajeros 1
                   value:
-                    - airport:
+                    - passenger:
                         id: 23
                         name: "Juan"
                         surname: "Martinez"
                         dni: "123456789D"
                         birthday: "1990-01-01"
                         age: 32
-
                 example2:
                   summary: Ejemplo de pasajeros 2
                   value:
-                    - airport:
+                    - passenger:
                         id: 42
                         name: "Anna"
                         surname: "Simón"
@@ -2959,8 +3120,6 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
                   $ref: '#/components/schemas/passenger'
               examples:
                 example1:
@@ -3006,7 +3165,7 @@ paths:
       summary: Busca pasajeros por Id.
       description: A partir de una Id se puede encontrar los datos de un pasajeros.
       parameters:
-        - name: pasajerosId
+        - name: passengerId
           in: path
           description: Id del pasajeros necesario para buscar.
           required: true
@@ -3018,31 +3177,29 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/passenger'
+                $ref: '#/components/schemas/passenger'
               examples:
                 example1:
                   summary: Ejemplo de pasajero 1
                   value:
-                    - passenger:
-                        id: 1
-                        name: "Juan"
-                        surname: "Martinez"
-                        dni: "123456789D"
-                        birthday: "1990-01-01"
-                        age: 32
+                    passenger:
+                      id: 1
+                      name: "Juan"
+                      surname: "Martinez"
+                      dni: "123456789D"
+                      birthday: "1990-01-01"
+                      age: 32
 
                 example2:
                   summary: Ejemplo de pasajero 2
                   value:
-                    - passenger:
-                        id: 2
-                        name: "Anna"
-                        surname: "Simón"
-                        dni: "987654321X"
-                        birthday: "1985-05-12"
-                        age: 37
+                    passenger:
+                      id: 2
+                      name: "Anna"
+                      surname: "Simón"
+                      dni: "987654321X"
+                      birthday: "1985-05-12"
+                      age: 37
         '400':
           description: Error al validar Id.
           content:
@@ -3070,7 +3227,7 @@ paths:
       summary: Edita un pasajeros.
       description: A partir del Id de un pasajeros se edita el mismo pasajeros añadiendo los campos adecuados.
       parameters:
-        - name: pasajerosId
+        - name: passengerId
           in: path
           description: Id del pasajeros necesario para editar.
           required: true
@@ -3122,8 +3279,12 @@ paths:
                   surname: "Simón"
                   dni: "987654321X"
       responses:
-        '201':
-          description: El pasajero se ha editado correctamente.
+        '204':
+          description: El Pasajero se ha editado correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContent'
 
         '400':
           description: Error de validación en los datos de entrada.
@@ -3152,7 +3313,7 @@ paths:
       summary: Edita un campo concreto del pasajero.
       description: A partir del Id de un pasajero se edita un campo concreto del mismo pasajero.
       parameters:
-        - name: pasajeroId
+        - name: passengerId
           in: path
           description: Id del pasajero necesario para editar.
           required: true
@@ -3187,8 +3348,12 @@ paths:
                   field: "name"
                   name: "Luis"
       responses:
-        '201':
-          description: El campo del pasajero se ha editado correctamente.
+        '204':
+          description: El Pasajero se ha editado correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContent'
 
         '400':
           description: Error de validación en los datos de entrada.
@@ -3218,7 +3383,7 @@ paths:
       summary: Elimina un pasajero.
       description: A partir del Id de un pasajero se borra el mismo pasajero.
       parameters:
-        - name: pasajeroId
+        - name: passengerId
           in: path
           description: Id del pasajero necesario para borrar.
           required: true
@@ -3227,7 +3392,11 @@ paths:
 
       responses:
         '204':
-          description: El pasajero se ha borrado correctamente.
+          description: El Pasajero se ha eliminado correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContent'
 
         '400':
           description: Error al validar Id.
@@ -3259,16 +3428,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    airportStore:
-                      allOf:
-                        - $ref: '#/components/schemas/ticket'
-                        - properties:
-                            airport:
-                              $ref: '#/components/schemas/ticket'
+                  $ref: '#/components/schemas/ticket'
               examples:
                 example1:
                   summary: Ejemplo de ticket 1
@@ -3293,8 +3453,6 @@ paths:
                         premium: false
                         passengerId: 5
                         flightId: 2
-
-
         '500':
           description: Internal Server Error
           content:
@@ -3420,16 +3578,7 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    airportStore:
-                      allOf:
-                        - $ref: '#/components/schemas/ticket'
-                        - properties:
-                            airport:
-                              $ref: '#/components/schemas/ticket'
+                  $ref: '#/components/schemas/ticket'
               examples:
                 example1:
                   summary: Ejemplo de ticket 1
@@ -3468,7 +3617,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/InternalServerError'
 
-  # Busca tickets asociados a un aeropuerto
+  # Busca tickets asociados a un pasajero
 
   /passenger/{passengerId}/ticket:
     get:
@@ -3485,20 +3634,30 @@ paths:
             type: integer
       responses:
         '200':
-          description: Devuelve una lista de tickets correctamente.
+          description: Devuelve una lista de tickets correctamente y la información del pasajero asociado.
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    airportStore:
-                      allOf:
-                        - $ref: '#/components/schemas/ticket'
-                        - properties:
-                            airport:
-                              $ref: '#/components/schemas/ticket'
+                type: object
+                properties:
+                  airportStore:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      seatNumber:
+                        type: string
+                      issuing:
+                        type: string
+                        format: date
+                      baggage:
+                        type: number
+                      premium:
+                        type: boolean
+                      flightId:
+                        type: integer
+                      passenger:
+                        $ref: '#/components/schemas/passenger'
               examples:
                 example1:
                   summary: Ejemplo de ticket 1
@@ -3507,11 +3666,16 @@ paths:
                         id: 1
                         seatNumber: "A12"
                         issuing: "2024-01-18"
-                        baggage: 2
+                        baggage: 2A
                         premium: true
-                        passengerId: 3
                         flightId: 6
-
+                        passenger:
+                          id: 2
+                          name: "Juan"
+                          surname: "Martinez"
+                          dni: "123456789D"
+                          birthday: "1990-01-01"
+                          age: 32
                 example2:
                   summary: Ejemplo de ticket 2
                   value:
@@ -3521,8 +3685,14 @@ paths:
                         issuing: "2024-02-19"
                         baggage: 4
                         premium: false
-                        passengerId: 5
                         flightId: 2
+                        passenger:
+                          id: 2
+                          name: "Anna"
+                          surname: "Simón"
+                          dni: "123456789X"
+                          birthday: "1995-06-03"
+                          age: 28
         '400':
           description: Error al validar Id.
           content:
@@ -3542,7 +3712,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/InternalServerError'
-  # Busca tickets asociados a un aeropuerto
+  # Busca tickets asociados a un vuelo
 
   /flight/{flightId}/ticket:
     get:
@@ -3559,20 +3729,30 @@ paths:
             type: integer
       responses:
         '200':
-          description: Devuelve una lista de tickets correctamente.
+          description: Devuelve una lista de tickets correctamente con la información de su vuelo y el aeropuerto del propio vuelo.
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    airportStore:
-                      allOf:
-                        - $ref: '#/components/schemas/ticket'
-                        - properties:
-                            airport:
-                              $ref: '#/components/schemas/ticket'
+                type: object
+                properties:
+                  airportStore:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      seatNumber:
+                        type: string
+                      issuing:
+                        type: string
+                        format: date
+                      baggage:
+                        type: number
+                      premium:
+                        type: boolean
+                      passengerId:
+                        type: integer
+                      flight:
+                        $ref: '#/components/schemas/flight'
               examples:
                 example1:
                   summary: Ejemplo de ticket 1
@@ -3584,7 +3764,21 @@ paths:
                         baggage: 2
                         premium: true
                         passengerId: 3
-                        flightId: 6
+                        flight:
+                          id: 76
+                          name: "Barcelona-Paris"
+                          departureDate: "2035-01-18"
+                          gate: 6
+                          duration: 2.5
+                          departure: false
+                          airport:
+                            id: 6
+                            name: "Aeropuerto de Barcelona"
+                            city: "Barcelona"
+                            foundationYear: "1965-10-06"
+                            latitude: 41.666900634765625
+                            longitude: -1.0413000583648682
+                            active: false
 
                 example2:
                   summary: Ejemplo de ticket 2
@@ -3596,7 +3790,21 @@ paths:
                         baggage: 4
                         premium: false
                         passengerId: 5
-                        flightId: 2
+                        flight:
+                          id: 76
+                          name: "Zaragoza-Malllorca"
+                          departureDate: "2035-01-18"
+                          gate: 6
+                          duration: 2.5,
+                          departure: false
+                          airport:
+                            id: 6
+                            name: "Aeropuerto de Zaragoza"
+                            city: "Zaragoza"
+                            foundationYear: "1965-10-06"
+                            latitude: 41.666900634765625
+                            longitude: -1.0413000583648682
+                            active: false
         '400':
           description: Error al validar Id.
           content:
@@ -3638,16 +3846,8 @@ paths:
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    airportStore:
-                      allOf:
-                        - $ref: '#/components/schemas/ticket'
-                        - properties:
-                            airport:
-                              $ref: '#/components/schemas/ticket'
+                 $ref: '#/components/schemas/ticket'
+
               examples:
                 example1:
                   summary: Ejemplo de ticket 1
@@ -3766,8 +3966,12 @@ paths:
                   passengerId: 2
                   flightId: 43
       responses:
-        '201':
-          description: EL ticket se ha editado correctamente.
+        '204':
+          description: El Ticket se ha editado correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContent'
 
         '400':
           description: Error de validación en los datos de entrada.
@@ -3831,8 +4035,12 @@ paths:
                   field: "seatNumber"
                   seatNumber: "A4"
       responses:
-        '201':
-          description: El campo del ticket se ha editado correctamente.
+        '204':
+          description: El Ticket se ha editado correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContent'
 
         '400':
           description: Error de validación en los datos de entrada.
@@ -3871,7 +4079,11 @@ paths:
 
       responses:
         '204':
-          description: El ticket se ha borrado correctamente.
+          description: El Ticket se ha eliminado correctamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NoContent'
 
         '400':
           description: Error al validar Id.
@@ -3922,7 +4134,7 @@ components:
           example: false
           description: Nos dice si despega o aterriza el vuelo.
         airportId:
-          type: :number
+          type: number
           format: int32
           example: 2
           description: Id del aeropuerto asociado.
@@ -3994,7 +4206,7 @@ components:
           example: true
           description: Nos indica si el avión está en activo o no.
         airlineId:
-          type: :number
+          type: number
           format: int32
           example: 2
           description: Id de la aerolínea asociada.
@@ -4069,7 +4281,7 @@ components:
           example: true
           description: Nos indica si la tienda está en activo o no.
         airportId:
-          type: :number
+          type: number
           format: int32
           example: 2
           description: Id del aeropuerto asociado.
@@ -4128,13 +4340,13 @@ components:
           type: boolean
           example: true
           description: Indica si el ticket es premium o no.
-        passenger:
-          type: :number
+        passengerId:
+          type: number
           format: int32
           example: 4
           description: Id del pasajero asociado.
-        flight:
-          type: :number
+        flightId:
+          type: number
           format: int32
           example: 2
           description: Id del vuelo asociado.
@@ -4155,14 +4367,25 @@ components:
           type: array
           items:
             type: string
+
+    NoContent:
+      type: object
+      allOf:
+        - $ref: '#/components/schemas/ErrorResponse'
+      example:
+        code: 204
+        message: Ejecución correcta no devuelve objeto.
+        errors: No content
+
     BadRequest:
       type: object
       allOf:
         - $ref: '#/components/schemas/ErrorResponse'
       example:
         code: 400
-        message: Problema en la solicitud.
+        message: Error de validación.
         errors: Bad Request
+
     NotFound:
       type: object
       allOf:
@@ -4171,6 +4394,7 @@ components:
         code: 404
         message: El recurso solicitado no se puede encontrar.
         errors: Not Found
+
     InternalServerError:
       type: object
       allOf:

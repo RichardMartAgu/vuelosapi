@@ -37,11 +37,11 @@ public class TicketController {
     private Logger logger = LoggerFactory.getLogger(TicketController.class);
 
     @GetMapping("/tickets")
-    public ResponseEntity<List<Ticket>> getAll(@Valid @RequestParam(defaultValue = "") String seatNumber,
+    public ResponseEntity<List<TicketOutDto>> getAll(@Valid @RequestParam(defaultValue = "") String seatNumber,
                                                @RequestParam(defaultValue = "0") int baggage,
                                                @RequestParam(required = false) LocalDate issuing) {
         logger.info("ini GET /tickets by parameters: seatNumber={}, premium={}, issuing={}", seatNumber, baggage, issuing);
-        List<Ticket> ticketList = ticketService.findAll();
+        List<TicketOutDto> ticketList = ticketService.findAll();
 
         if (!seatNumber.isEmpty()) {
             ticketList = ticketList.stream()
@@ -63,10 +63,10 @@ public class TicketController {
     }
 
     @GetMapping("/ticket/{ticketId}")
-    public ResponseEntity<Ticket> getTicket(@PathVariable long ticketId) throws TicketNotFoundException {
+    public ResponseEntity<TicketOutDto> getTicket(@PathVariable long ticketId) throws TicketNotFoundException {
         logger.info("ini GET/ticket/" + ticketId);
-        Optional<Ticket> optionalTicket = ticketService.findById(ticketId);
-        Ticket ticket = optionalTicket.orElseThrow(() -> new TicketNotFoundException(ticketId));
+        Optional<TicketOutDto> optionalTicket = ticketService.findById(ticketId);
+        TicketOutDto ticket = optionalTicket.orElseThrow(() -> new TicketNotFoundException(ticketId));
         logger.info("end GET/ticket/" + ticketId);
         return new ResponseEntity<>(ticket, HttpStatus.OK);
     }
@@ -121,7 +121,7 @@ public class TicketController {
         logger.info("ini PUT /ticket/" + ticketId);
         ticketService.modifyTicket(ticket, ticketId);
         logger.info("end PUT /ticket/" + ticketId);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PatchMapping(value = "/ticket/{ticketId}")

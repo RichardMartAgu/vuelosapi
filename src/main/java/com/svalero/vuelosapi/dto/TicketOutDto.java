@@ -13,6 +13,7 @@ public class TicketOutDto {
     private Long id;
     private String seatNumber;
     private LocalDate issuing;
+    private int baggage;
     private boolean premium;
     private Long passengerId;
     private Long flightId;

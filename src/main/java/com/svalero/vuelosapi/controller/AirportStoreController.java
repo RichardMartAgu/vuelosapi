@@ -103,7 +103,7 @@ public class AirportStoreController {
         logger.info("ini PUT /airportStore/" + airportStoreId );
         airportStoreService.modifyAirportStore(airportStore, airportStoreId);
         logger.info("end PUT /airportStore/" + airportStoreId );
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PatchMapping(value = "/airportStore/{airportStoreId}")
